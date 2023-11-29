@@ -1,9 +1,11 @@
 <template>
   <div>
-    <HomeSliderSection></HomeSliderSection>
+    <HomeSliderSection />
+    <HomeProductsSection />
   </div>
 </template>
 <script>
+import HomeProductsSection from '../components/HomeProductsSection.vue';
 import HomeSliderSection from '../components/HomeSliderSection.vue';
 
 export default {
@@ -13,7 +15,7 @@ export default {
             msg: "Home Page"
         };
     },
-    components: { HomeSliderSection }
+    components: { HomeSliderSection, HomeProductsSection }
 }
 </script>
 <style>

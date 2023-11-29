@@ -1,5 +1,11 @@
 <template>
- <swiper :navigation="true" :modules="modules" class="mySwiper">
+ <swiper 
+ :loop="true"
+ :pagination="true" 
+ :navigation="true" 
+ :modules="modules" 
+ class="mySwiper"
+ >
     <swiper-slide v-for="(img,i) in images" :key="i">
       <img class="h-full" :src="img" alt="">
     </swiper-slide>
@@ -18,10 +24,11 @@ import img5 from '../assets/images/Banner-04.jpg'
   import 'swiper/css';
 
   import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
 
 
   // import required modules
-  import { Navigation } from 'swiper/modules';
+  import { Navigation, Pagination } from 'swiper/modules';
 
   export default {
     components: {
@@ -30,7 +37,7 @@ import img5 from '../assets/images/Banner-04.jpg'
     },
     setup() {
       return {
-        modules: [Navigation],
+        modules: [Navigation,Pagination],
       };
   },
 
@@ -42,10 +49,20 @@ import img5 from '../assets/images/Banner-04.jpg'
   };
 </script>
 
-<style scoped>
+<style>
   .swiper {
   width: 100%;
   height: 100%;
 }
+
+.swiper-button-prev,.swiper-button-next,span.swiper-pagination-bullet.swiper-pagination-bullet-active{
+      color: #003376 !important;
+    }
+    @media screen and (max-width: 767px) {
+        .swiper-button-prev, .swiper-button-next{
+          display: none !important;
+
+        }
+      }
 
 </style>

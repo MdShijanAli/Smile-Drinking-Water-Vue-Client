@@ -1,16 +1,19 @@
 <template>
   <div>
-    <h1>{{ msg }}</h1>
+    <HomeSliderSection></HomeSliderSection>
   </div>
 </template>
 <script>
+import HomeSliderSection from '../components/HomeSliderSection.vue';
+
 export default {
-  name: "HomeView",
-  data() {
-    return {
-      msg: "Home Page"
-    }
-  }
+    name: "HomeView",
+    data() {
+        return {
+            msg: "Home Page"
+        };
+    },
+    components: { HomeSliderSection }
 }
 </script>
 <style>

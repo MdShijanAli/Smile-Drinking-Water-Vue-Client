@@ -5,7 +5,7 @@ import PrimeVue from 'primevue/config';
 import Carousel from 'primevue/carousel'
 import Tag from 'primevue/tag'
 import Button from 'primevue/button'
-
+import "preline/preline";
 
 import 'primevue/resources/themes/lara-light-green/theme.css'
 import 'primevue/resources/primevue.min.css'

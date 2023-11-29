@@ -4,6 +4,8 @@ import CompanyProfile from '../views/CompanyProfile.vue'
 import Products from '../views/Products.vue'
 import Blog from '../views/Blog.vue'
 import Career from '../views/Career.vue'
+import BlogDetails from '../components/BlogDetails.vue'
+import ProductDetails from '../components/ProductDetails.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +34,18 @@ const router = createRouter({
       path: '/career',
       name: 'Career',
       component: Career
+    },
+    {
+      path: '/blog/:title',
+      name: 'blog-details',
+      component: BlogDetails,
+      props: true
+    },
+    {
+      path: '/product/:title',
+      name: 'product-details',
+      component: ProductDetails,
+      props: true
     },
     
   ]

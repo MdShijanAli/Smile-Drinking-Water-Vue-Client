@@ -19,10 +19,12 @@
                         <img class="mx-auto w-full h-full pt-4 group-hover:translate-y-5 transition duration-500 ease-in-out" :src="data.img" alt="">
                       </div>
                       <div class="flex items-center justify-between mt-5">
-                        <h3 class="font-bold">{{ data.weight }}</h3>
-                        <button
+                        <h3 class="font-bold">{{ data.title }}</h3>
+                        <RouterLink :to="{ name: 'product-details', params: { title: data.title.replace(/ /g, '-') } }">
+                          <button
                           class="px-2 py-1 border-2 font-semibold hover:bg-primary hover:text-white transition duration-500 ease-in-out hover:border-primary border-black rounded-full">Get
                           Now</button>
+                        </RouterLink>
                       </div>
                       <!-- End Testimonial -->
                     </div>
@@ -41,17 +43,12 @@
 </template>
 
 <script setup>
-import productImg1 from '../assets/images/1_Mai-Bottle-1000x1000.png'
-import productImg2 from '../assets/images/1.5.png'
-import productImg3 from '../assets/images/200ml.png'
-import productImg4 from '../assets/images/2Mai-Bottle-1000x1000.png'
-import productImg5 from '../assets/images/330-ML.png'
-import productImg6 from '../assets/images/4-G-NBR.png'
-import productImg7 from '../assets/images/5-G-New.png'
-import productImg8 from '../assets/images/5-Ltr.png'
 
 import { ref } from "vue";
+
 import { RouterLink } from 'vue-router';
+
+import {useProductStore} from "../stores/productStore"
 
 const responsiveOptions = ref([
   { breakpoint: '1400px', numVisible: 4, numScroll: 1 },
@@ -60,68 +57,33 @@ const responsiveOptions = ref([
   { breakpoint: '575px', numVisible: 1, numScroll: 1 }
 ]);
 
-const products = ref([
-        {
-          id: 1,
-          img: productImg1,
-          weight: "1.5 LTR"
-        },
-        {
-          id: 2,
-          img: productImg2,
-          weight: "2.5 LTR"
-        },
-        {
-          id: 3,
-          img: productImg3,
-          weight: "3.5 LTR"
-        },
-        {
-          id: 4,
-          img: productImg4,
-          weight: "4.5 LTR"
-        },
-        {
-          id: 5,
-          img: productImg5,
-          weight: "5.5 LTR"
-        },
-        {
-          id: 6,
-          img: productImg6,
-          weight: "6.5 LTR"
-        },
-        {
-          id: 7,
-          img: productImg7,
-          weight: "7.5 LTR"
-        },
-        {
-          id: 8,
-          img: productImg8,
-          weight: "8.5 LTR"
-        },
-      ],);
 
+
+    const productStore = useProductStore();
+
+// Now you can access the data from the store
+      const products = productStore.allProducts;
+      console.log(products)
 </script>
 
 
 <style>
 
-@keyframes upDown {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(2px);
-    }
-  }
+.single-image-box:hover img {
+        @keyframes upDown {
 
-  .single-image-box:hover {
-    background: linear-gradient(transparent 40%, #003376 40%) no-repeat;
-    animation: upDown 3s ease-in-out infinite alternate-reverse !important;
-  }
+          0%,
+          100% {
+            transform: translateY(0);
+          }
 
+          50% {
+            transform: translateY(20px);
+          }
+        }
+
+        animation: upDown 3s ease-in infinite alternate-reverse;
+      }
 
     .single-image-box {
         height: 280px;

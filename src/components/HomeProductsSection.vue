@@ -63,7 +63,7 @@ const responsiveOptions = ref([
 
 // Now you can access the data from the store
       const products = productStore.allProducts;
-      console.log(products)
+      // console.log(products)
 </script>
 
 

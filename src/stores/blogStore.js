@@ -36,6 +36,6 @@ export const useBlogStore = defineStore('BlogStore', {
   }),
   getters: {
     allBlogs: (state) => state.blogs,
-  }
+  },
 
-})
+});

@@ -21,7 +21,7 @@
 
            
             <div class="text-center mt-10">
-              <RouterLink to="/blog">
+              <RouterLink to="/blogs">
                 <button class="px-10 py-2 bg-primary hover:bg-secondary transition duration-500 ease-in-out rounded-full text-white font-semibold">See All</button>
               </RouterLink>
             </div>

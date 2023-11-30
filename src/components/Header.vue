@@ -1,17 +1,17 @@
 <template>
      <div>
 
-<div class="p-3 bg-orange-400 text-center">
+<div class="p-3 bg-orange-400 text-center" >
   <h1 class="font-semibold text-black">This Website is Under Construction</h1>
 </div>
 
-<nav id="mainNavbar" class="bg-[#F7EBEC] shadow-md  z-[99] w-full">
+<nav id="mainNavbar" :class="{ 'top-0': isTop, 'scrolled': isScrolled }" class="bg-[#F7EBEC] shadow-md z-[99] w-full">
   <div class="max-w-7xl mx-auto px-6 flex  items-center justify-between ">
     <div class="flex items-center justify-between w-full py-2">
       <div class="lg:w-[180px] sm:w-[100px] w-[80px]">
-        <a href="/" class="flex items-center">
-          <img src="../assets/images/logo.png" class="h-full w-full mr-3" alt="Logo">
-        </a>
+        <RouterLink to="/" class="flex items-center">
+          <img :src="logo" class="h-full w-full mr-3" alt="Logo">
+        </RouterLink>
       </div>
 
       <div class="hidden lg:flex w-full justify-end" id="navbar-sticky">
@@ -22,7 +22,7 @@
           </li>
           <li class="">
             <a class="cursor-pointer mx-auto px-5 py-2 block w-full rounded-full bg-primary hover:bg-secondary transition duration-700 ease-in-out text-white mt-5 lg:mt-0"
-            onclick="my_modal_2.showModal()">
+            onclick="orderOnlineModal.showModal()">
               Order Online
             </a>
           </li>
@@ -53,9 +53,9 @@
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           <!-- Sidebar content here -->
           <div class="w-[150px] mx-auto">
-            <a href="/" class="flex items-center">
-              <img src="./images/logo.png" class="h-full w-full mr-3" alt="Logo">
-            </a>
+            <RouterLink to="/" class="flex items-center">
+              <img :src="logo" class="h-full w-full mr-3" alt="Logo">
+            </RouterLink>
           </div>
           <div class="border-b my-3"></div>
           <li v-for="menu in menuItems" :key="menu.id">
@@ -64,7 +64,7 @@
     
 
           <li class="">
-            <a onclick="my_modal_2.showModal()"
+            <a onclick="orderOnlineModal.showModal()"
               class="w-full block text-center rounded-full bg-primary hover:bg-secondary transition duration-700 ease-in-out text-white hover:text-white mt-5 lg:mt-0">
               <button>
                 Order Online
@@ -79,44 +79,79 @@
   </div>
 </nav>
 </div>
+
+<OrderOnlineModal modal="orderOnlineModal" />
 </template>
 <script>
-  import { RouterLink } from "vue-router";
+import logoimg from "../assets/images/logo.png"
+import { RouterLink } from "vue-router";
+import OrderOnlineModal from "./OrderOnlineModal.vue";
 export default {
-  name: "Header",
-  data() {
-    return {
-      menuItems: [
-        {
-          id: 1,
-          name: "Home",
-          path: "/"
-        },
-        {
-          id: 2,
-          name: "Company Profile",
-          path: "/company-profile"
-        },
-        {
-          id: 3,
-          name: "Products",
-          path: "/products"
-        },
-        {
-          id: 4,
-          name: "Blog",
-          path: "/blog"
-        },
-        {
-          id: 1,
-          name: "Career",
-          path: "/career"
-        },
-      ]
-    }
-  }
-}
+    name: "Header",
+    data() {
+        return {
+            isTop: true,
+            isScrolled: false,
+            logo: logoimg,
+            menuItems: [
+                {
+                    id: 1,
+                    name: "Home",
+                    path: "/"
+                },
+                {
+                    id: 2,
+                    name: "Company Profile",
+                    path: "/company-profile"
+                },
+                {
+                    id: 3,
+                    name: "Products",
+                    path: "/products"
+                },
+                {
+                    id: 4,
+                    name: "Blog",
+                    path: "/blogs"
+                },
+                {
+                    id: 1,
+                    name: "Career",
+                    path: "/career"
+                },
+            ]
+        };
+    },
+    mounted() {
+        // Add scroll event listener
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed() {
+        // Remove scroll event listener when component is destroyed
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+    methods: {
+        handleScroll() {
+            // Check scroll position and update data properties accordingly
+            this.isTop = window.scrollY === 0;
+            this.isScrolled = window.scrollY > 0;
+        }
+    },
+    components: { OrderOnlineModal }
+};
 </script>
-<style>
-  
+<style scoped>
+  /* Your styles for the navbar go here */
+.top-0 {
+  margin-top: 0;
+}
+
+.scrolled {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100; 
+  background-color: #F7EBEC !important; /* You may need to adjust this color */
+  transition: background-color 0.5s ease-in-out;
+}
 </style>

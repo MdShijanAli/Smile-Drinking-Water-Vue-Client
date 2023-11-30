@@ -13,7 +13,7 @@
           <div
             class="md:hidden block solar-system w-[200px] h-[200px] relative rounded-full border border-[#909090] mx-auto md:my-20 mt-10">
             <div>
-              <img class="mx-auto py-10  w-[50%]" src="./images/water-splash-5gr.png" alt="">
+              <img class="mx-auto py-10  w-[50%]" src="../assets/images/water-splash-5gr.png" alt="">
             </div>
 
             <div class="planet">
@@ -131,21 +131,7 @@ export default {
 
 
 <style scoped>
-@keyframes upDown {
 
-0%,
-100% {
-  transform: translateY(0);
-}
-
-50% {
-  transform: translateY(50px);
-}
-}
-
-  .animate-up-down {
-  animation: upDown 5s ease-in infinite alternate-reverse;
-} 
 
 .hero-div-1 {
   position: absolute;

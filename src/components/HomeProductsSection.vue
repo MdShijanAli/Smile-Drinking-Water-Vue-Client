@@ -104,5 +104,10 @@ const responsiveOptions = ref([
         height: 85% !important;
         padding-top: 20px;
       }
+
+      .single-image-box:hover {
+        background: linear-gradient(transparent 40%, #003376 40%) no-repeat;
+      }
+
  
 </style>

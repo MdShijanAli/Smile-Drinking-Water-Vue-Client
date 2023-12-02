@@ -4,10 +4,10 @@
 
    <div>
       <div class="max-w-7xl mx-auto px-6 md:py-10 pb-10 z-0">
-        <div class="">
+        <div class="mt-10 md:mt-0">
           <h1
-            class="lg:text-5xl md:text-4xl sm:text-3xl text-2xl lg:border-l-[6px] md:border-l-[5px] sm:border-l-[4px] border-l-[3px] pl-5 border-primary">
-            Available <br> Jobs</h1>
+            class="lg:text-h1 md:text-4xl sm:text-3xl text-2xl text-center font-semibold">
+            Open Positions!!</h1>
         </div>
 
         <div class="grid grid-cols-1 items-center sm:gap-8 gap-5 mt-10">

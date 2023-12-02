@@ -13,49 +13,49 @@
           <div
             class="md:hidden block solar-system w-[200px] h-[200px] relative rounded-full border border-[#909090] mx-auto md:my-20 mt-10">
             <div>
-              <img class="mx-auto py-10  w-[50%]" src="../assets/images/water-splash-5gr.png" alt="">
+              <img class="mx-auto py-10  w-[50%]" :src="img1" alt="">
             </div>
 
             <div class="planet">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness.png" alt="">
+              <img class="w-[40%]" :src="img2" alt="">
 
             </div>
 
             <div class="planet1">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness-01.png" alt="">
+              <img class="w-[40%]" :src="img3" alt="">
 
             </div>
 
             <div class="planet2">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness-02.png" alt="">
+              <img class="w-[40%]" :src="img4" alt="">
 
             </div>
             <div class="planet3">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness-03.png" alt="">
+              <img class="w-[40%]" :src="img5" alt="">
 
             </div>
             <div class="planet4">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness-04.png" alt="">
+              <img class="w-[40%]" :src="img6" alt="">
 
             </div>
             <div class="planet5">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness-05.png" alt="">
+              <img class="w-[40%]" :src="img7" alt="">
 
             </div>
             <div class="planet6">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness-06.png" alt="">
+              <img class="w-[40%]" :src="img8" alt="">
 
             </div>
             <div class="planet7">
 
-              <img class="w-[40%]" src="../assets/images/Health-and-Fitness-07.png" alt="">
+              <img class="w-[40%]" :src="img9" alt="">
 
             </div>
 
@@ -66,45 +66,45 @@
 
           <div class="relative hidden md:block">
             <div class="absolute top-[80px] left-[100px] img-dev animate-round1">
-              <img class="relative" src="../assets/images/Health-and-Fitness.png" alt="">
+              <img class="relative" :src="img2" alt="">
               <div class="hero-div hero-div-1 p-1 leading-6 font-medium text-primary">It could aid weight loss</div>
             </div>
             <div class="absolute top-[170px] left-[250px] img-dev2 animate-round2">
-              <img class="relative" src="../assets/images/Health-and-Fitness-01.png" alt="">
+              <img class="relative" :src="img3" alt="">
               <div class="hero-div hero-div-2 p-1 leading-6 font-medium text-primary">It energizes us</div>
             </div>
             <div class="absolute top-[380px] left-[250px] img-dev3 animate-round3">
-              <img class="relative" src="../assets/images/Health-and-Fitness-02.png" alt="">
+              <img class="relative" :src="img4" alt="">
               <div class="hero-div hero-div-3 p-1 leading-6 font-medium text-primary">It keeps our kidneys working &
                 healthy</div>
             </div>
             <div class="absolute top-[260px] left-[100px] img-dev4 animate-round4">
-              <img class="relative" src="../assets/images/Health-and-Fitness-03.png" alt="">
+              <img class="relative" :src="img5" alt="">
               <div class="hero-div hero-div-4 p-1 leading-6 font-medium text-primary">Hot outside no excuse</div>
             </div>
 
-            <img class="mx-auto py-10 animate-up-down" src="../assets/images/water-splash-5gr.png" alt="">
+            <img class="mx-auto py-10 animate-up-down" :src="img1" alt="">
 
 
             <div class="absolute top-[80px] right-[100px] img-dev8 animate-round5">
-              <img class="relative" src="../assets/images/Health-and-Fitness-04.png" alt="">
+              <img class="relative" :src="img6" alt="">
               <div class="hero-div hero-div-8 p-1 leading-6 font-medium text-primary">It can improve mood</div>
             </div>
 
             <div class="absolute top-[170px] right-[250px] img-dev5 animate-round6">
-              <img class="relative" src="../assets/images/Health-and-Fitness-05.png" alt="">
+              <img class="relative" :src="img7" alt="">
               <div class="hero-div hero-div-5 p-1 leading-6 font-medium text-primary">It helps athletes fight fatigue
               </div>
             </div>
 
             <div class="absolute top-[260px] right-[100px] img-dev6 animate-round7">
-              <img class="relative" src="../assets/images/Health-and-Fitness-06.png " alt="">
+              <img class="relative" :src="img8" alt="">
               <div class="hero-div hero-div-6 p-1 leading-6 font-medium text-primary">Drinking it may help prevent
                 headaches, naturally</div>
             </div>
 
             <div class="absolute top-[380px] right-[250px] img-dev7 animate-round8">
-              <img class="relative" src="../assets/images/Health-and-Fitness-07.png" alt="">
+              <img class="relative" :src="img9" alt="">
               <div class="hero-div hero-div-7 p-1 leading-6 font-medium text-primary">It powers our warm - weather
                 exercise</div>
             </div>
@@ -122,10 +122,33 @@
 
 </template>
 <script>
+import fitImg1 from '../assets/images/water-splash-5gr.png'
+import fitImg2 from '../assets/images/Health-and-Fitness.png'
+import fitImg3 from '../assets/images/Health-and-Fitness-01.png'
+import fitImg4 from '../assets/images/Health-and-Fitness-02.png'
+import fitImg5 from '../assets/images/Health-and-Fitness-03.png'
+import fitImg6 from '../assets/images/Health-and-Fitness-04.png'
+import fitImg7 from '../assets/images/Health-and-Fitness-05.png'
+import fitImg8 from '../assets/images/Health-and-Fitness-06.png'
+import fitImg9 from '../assets/images/Health-and-Fitness-07.png'
 
 
 export default {
-  name: "HomeHealthFitness"
+  name: "HomeHealthFitness",
+
+  data() {
+    return {
+      img1: fitImg1,
+      img2: fitImg2,
+      img3: fitImg3,
+      img4: fitImg4,
+      img5: fitImg5,
+      img6: fitImg6,
+      img7: fitImg7,
+      img8: fitImg8,
+      img9: fitImg9,
+    }
+  }
 }
 </script>
 

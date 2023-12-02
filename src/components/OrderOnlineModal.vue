@@ -73,7 +73,7 @@
             </div>
             
 
-            <div class="sm:flex grid gap-5">
+           <!--  <div class="sm:flex grid gap-5">
               <div class="relative  sm:w-1/2 w-full">
                   <select @click="fetchData" v-model="division" @change="selectedDivision" id="division" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
                   
@@ -155,8 +155,10 @@
                     peer-[:not(:placeholder-shown)]:-translate-y-1.5
                     peer-[:not(:placeholder-shown)]:text-gray-500">Union</label>
               </div>
-            </div>
+            </div> -->
 
+
+            <AddressComponent />
 
             <div class="relative my-5">
               <div class="relative">
@@ -215,59 +217,20 @@
 </dialog>
 </template>
 <script>
+import AddressComponent from './AddressComponent.vue';
 
-import { useAddressStore } from '../stores/addressStore';
+
+// import { useAddressStore } from '../stores/addressStore';
 
 export default {
-  props: ['modal'],
-  name: 'OrderOnlineModal',
-
-  data() {
-    return {
-      divisions: [],
-      districts: [],
-      upazilas: [],
-      unions: [],
-
-    }
-  }
-,
-
-  methods: {
-    async fetchData() {
-      const addressStore = useAddressStore();
-      await addressStore.fetchDivisions();
-      this.divisions = addressStore.divisions;
-
-      await addressStore.fetchDistricts();
-      await addressStore.fetchUpazilas();
-      await addressStore.fetchUnions();
-      this.districts = addressStore.districts;
-      this.upazilas = addressStore.upazilas;
-      this.unions = addressStore.unions;
+    props: ['modal'],
+    name: 'OrderOnlineModal',
+    data() {
+        return {
+    
+        };
     },
-
-    selectedDivision(selectDivision) {
-      const divisionId = selectDivision.target.value;
-      console.log(divisionId);
-      const addressStore = useAddressStore();
-      addressStore.updateSelectedDivision(divisionId);
-    },
-
-    selectedDistrict(selectDistrict) {
-      const districtId = selectDistrict.target.value;
-      console.log(districtId);
-      const addressStore = useAddressStore();
-      addressStore.updateSelectedDistrict(districtId);
-    },
-
-    selectedUpazila(selectUpazila) {
-      const upazilaId = selectUpazila.target.value;
-      console.log(upazilaId);
-      const addressStore = useAddressStore();
-      addressStore.updateSelectedUpazila(upazilaId);
-    },
-  },
+    components: { AddressComponent }
 };
 
 </script>

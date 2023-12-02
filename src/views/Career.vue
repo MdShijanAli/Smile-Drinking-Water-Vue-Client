@@ -36,9 +36,7 @@
           </div>
           
           
-          <application-form :job="selectedJob"></application-form>
-          <!-- Modal -->
-          
+
         </div>
 
 
@@ -48,16 +46,170 @@
       </div>
     </div>
 
+
+    <!-- Application Modal -->
+
+    <dialog id="career_apply_modal" class="modal">
+  <div
+  class="modal-box w-11/12 max-w-2xl p-0 rounded-sm">
+  <div class=" border-b  py-3 px-4">
+    <h1 class="md:text-h2 text-center text-xl sm:text-2xl font-bold text-primary">Application Form</h1>
+  </div>
+
+  <form @submit.prevent="submitForm">
+  <div class="p-4 overflow-y-auto">
+  <div>
+  <input type="text" disabled :value="'Application For ' + selectedJob"
+  class="peer py-3 px-4 ps-11 block w-full bg-gray-200 text-center rounded-sm text-md cursor-not-allowed"
+  >
+  </div>
+    <div class="sm:flex grid gap-5 items-center w-full my-5">
+      <div class="relative sm:w-1/2 w-full">
+        <input v-model="firstName" type="text" required
+          class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none "
+          placeholder="Enter First Name">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+          <svg class="flex-shrink-0 w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24"
+            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="relative sm:w-1/2 w-full">
+        <input v-model="lastName" type="text" required
+          class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none "
+          placeholder="Enter Last Name">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+          <svg class="flex-shrink-0 w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24"
+            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="sm:flex grid gap-5 items-center w-full my-5">
+      <div class="relative sm:w-1/2 w-full">
+        <input v-model="email" type="email" required
+          class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none "
+          placeholder="Enter Email">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+          <svg class="fill-gray-500" xmlns="http://www.w3.org/2000/svg" height="1em"
+            viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+            <path
+              d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="relative sm:w-1/2 w-full">
+        <input v-model="phone" type="tel" required
+          class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none "
+          placeholder="Enter Phone">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="flex-shrink-0 w-4 h-4 text-gray-500">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+ 
+ <AddressComponent />
+
+
+
+    <div class="relative my-5">
+      <div class="relative">
+        <input required v-model="fullAddress" type="text"
+          class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none "
+          placeholder="Enter Full Address">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="flex-shrink-0 w-4 h-4 text-gray-500">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+          </svg>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="w-full my-5">
+      <h1 class="text-xl font-bold mt-5">Upload my Curriculum vitae</h1>
+      <p class="my-3">Cv is mandatory.</p>
+      <label for="file-input" class="sr-only">Choose file</label>
+      <input required @change="handleFileChange" type="file" name="file-input" id="file-input" class="block w-full border bg-gray-100 border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
+      file:bg-gray-50 file:border-0
+      file:bg-gray-300 file:me-4
+      file:py-3 file:px-4
+     ">
+    </div>
+
+    <div class="flex my-5">
+      <input required type="checkbox"
+        class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  "
+        id="confirm">
+      <label for="confirm" class="text-sm text-gray-500 ms-3">I have read and I accept
+        the <a class="underline hover:text-primary" href="./privacy-policy.html">Privacy Policy</a></label>
+    </div>
+    <div class="flex my-5">
+      <input required type="checkbox"
+        class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+        id="confirm2">
+      <label for="confirm2" class="text-sm text-gray-500 ms-3 ">Yes, Roman Water can add
+        me to the talent pool and contact me about future job opportunities</label>
+    </div>
+
+  </div>
+  <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t ">
+
+    <div class="modal-action m-0">
+      <form method="dialog">
+        <!-- if there is a button, it will close the modal -->
+        <button class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-sm border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">Close</button>
+      </form>
+    </div>
+    <div>
+      <button type="submit"
+      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-sm border border-transparent bg-primary text-white hover:bg-secondary disabled:opacity-50 disabled:pointer-events-none ">
+      Submit Application
+    </button>
+    </div>
+  </div>
+  </form>
+</div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+ 
+</dialog>
+
 </template>
 <script>
+import AddressComponent from "../components/AddressComponent.vue";
 import BannerSlot from "../components/BannerSlot.vue"
 
 export default{
 name: "Career",
-components: { BannerSlot }, 
+components: { BannerSlot, AddressComponent }, 
 
   data() {
     return {
+      selectedJob: "",
       jobs: [
         {
           id: 1,
@@ -92,8 +244,19 @@ components: { BannerSlot },
           applyLastDate: "2023-12-15"
         },
       ],
+
+
+  
     }
-  }
+  },
+
+    methods: {
+        selectJob(jobName) {
+        this.selectedJob = jobName;
+        // console.log(job)
+      }
+    },
+
 }
 </script>
 <style>

@@ -16,7 +16,7 @@
             <div class="flex h-full items-center justify-center">
               <button type="button"
                 class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent "
-                data-hs-overlay="#hs-slide-down-animation-modal">
+                data-hs-overlay="#video_modal">
                 <svg xmlns="http://www.w3.org/2000/svg"
                   class="w-14 h-14 fill-white hover:fill-primary transition duration-500 ease-in-out"
                   viewBox="0 0 512 512">
@@ -32,7 +32,7 @@
 
 
       <!-- viddeo modal -->
-      <div id="hs-slide-down-animation-modal"
+      <div id="video_modal"
         class="hs-overlay hidden  w-full h-full fixed top-0 start-0 z-[100] overflow-x-hidden overflow-y-auto pointer-events-none">
         <div
           class="hs-overlay-open:mt-7 pointer-events-auto hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all lg:w-1/2 h-[50vh] mx-auto px-6">

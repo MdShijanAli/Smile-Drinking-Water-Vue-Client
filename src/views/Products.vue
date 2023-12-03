@@ -7,7 +7,7 @@
     <div class="max-w-7xl mx-auto px-6 py-10">
       <div class="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
   
-                <div v-for="product in products" :key="product.id" class="w-full h-full box">
+                <div v-for="product in productStore.products" :key="product.id" class="w-full h-full box">
                     <!-- Start Testimonial -->
                       <div class="single-image-box">
                          <img class="mx-auto w-full h-full pt-4" :src="product.img" alt="">
@@ -48,24 +48,34 @@
 
 </template>
 <script>
-import { mapState } from 'pinia';
+import { ref, onMounted } from 'vue';
 import BannerSlot from '../components/BannerSlot.vue';
 import { useProductStore } from '../stores/productStore';
+
 
 export default {
     name: "Products",
     data() {
         return {
-            msg: "This is Products page"
+          msg: "This is Products page",
+          
         };
     },
   components: { BannerSlot },
 
-  computed: {
-    ...mapState(useProductStore, {
-        products: "allProducts"
-      })
-    }
+  setup() {
+    const productStore = useProductStore();
+
+    onMounted(() => {
+      // Fetch products when the component is mounted
+      productStore.fetchProducts();
+    });
+
+    return {
+      productStore,
+    };
+  },
+
 }
 </script>
 <style>

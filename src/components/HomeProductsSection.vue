@@ -11,7 +11,7 @@
       <div class="relative glide-08 mt-10 overflow-hidden">
         <div class="card">
           <!--   -->
-          <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="2000">  
+          <Carousel :value="productStore.products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="2000">  
             <template #item="{ data }">
               <div class="w-full h-full img-box px-2 group">
                       <!-- Start Testimonial -->
@@ -42,28 +42,44 @@
   </div>
 </template>
 
-<script setup>
+<script>
 
-import { ref } from "vue";
+import { ref, onMounted } from 'vue';
 
 import { RouterLink } from 'vue-router';
 
-import {useProductStore} from "../stores/productStore"
-
-const responsiveOptions = ref([
-  { breakpoint: '1400px', numVisible: 4, numScroll: 1 },
-  { breakpoint: '1199px', numVisible: 3, numScroll: 1 },
-  { breakpoint: '767px', numVisible: 2, numScroll: 1 },
-  { breakpoint: '575px', numVisible: 1, numScroll: 1 }
-]);
+import { useProductStore } from "../stores/productStore"
 
 
 
-    const productStore = useProductStore();
+export default {
 
-// Now you can access the data from the store
-      const products = productStore.allProducts;
-      // console.log(products)
+
+setup() {
+
+    const responsiveOptions = ref([
+    { breakpoint: '1400px', numVisible: 4, numScroll: 1 },
+    { breakpoint: '1199px', numVisible: 3, numScroll: 1 },
+    { breakpoint: '767px', numVisible: 2, numScroll: 1 },
+    { breakpoint: '575px', numVisible: 1, numScroll: 1 }
+    ]);
+
+  const productStore = useProductStore();
+
+  onMounted(() => {
+    // Fetch products when the component is mounted
+    productStore.fetchProducts();
+  });
+
+  return {
+    productStore,responsiveOptions
+  };
+    }
+
+  }
+
+
+
 </script>
 
 

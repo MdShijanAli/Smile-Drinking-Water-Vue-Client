@@ -178,10 +178,18 @@
               </div>
             </div>
 
-            <div>
-              <select v-model="service"
-                class="py-3 px-4 pe-9 block w-full bg-gray-100  rounded-sm text-sm focus:border-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none ">
-                <option disabled selected>— Select —</option>
+         
+
+            <div class="relative">
+                  <select  v-model="service" id="service" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
+                  
+                  focus:pt-6
+                  focus:pb-2
+                  [&:not(:placeholder-shown)]:pt-6
+                  [&:not(:placeholder-shown)]:pb-2
+                  autofill:pt-6
+                  autofill:pb-2">
+                <option disabled>— Select —</option>
                 <option value="Mai Alkaline 500 ML" data-id="254">Mai Alkaline 500 ML</option>
                 <option value="Mai Alkaline 1.5 LTR" data-id="251">Mai Alkaline 1.5 LTR</option>
                 <option value="Manual Water Pump with 5 Gallon  Returnable Bottle" data-id="256">Manual Water
@@ -197,8 +205,16 @@
                 <option value="330 ML" data-id="139">330 ML</option>
                 <option value="200 ML" data-id="133">200 ML</option>
                 <option value="Cup 100ml/200ml" data-id="252">Cup 100ml/200ml</option>
-              </select>
-            </div>
+              
+                  </select>
+                  <label for="service" class="absolute top-0 start-0 p-4 h-full truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                    peer-focus:text-xs
+                    peer-focus:-translate-y-1.5
+                    peer-focus:text-gray-500
+                    peer-[:not(:placeholder-shown)]:text-xs
+                    peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                    peer-[:not(:placeholder-shown)]:text-gray-500">Services</label>
+              </div>
 
           </div>
           <!-- End Form Group -->

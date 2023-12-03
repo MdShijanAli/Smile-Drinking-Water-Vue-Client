@@ -30,8 +30,8 @@
     <h1 class="text-h1 font-semibold text-center pb-10">Related products</h1>
       <div class="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
   
-                <div v-for="product in products.slice(0,4)" :key="product.id" class="w-full h-full box">
-                    <!-- Start Testimonial -->
+                <div v-for="product in productStore.products.slice(0,4)" :key="product.id" class="w-full h-full box">
+       
                       <div class="single-image-box">
                          <img class="mx-auto w-full h-full pt-4" :src="product.img" alt="">
                       </div>
@@ -43,7 +43,7 @@
                           Now</button>
                         </RouterLink>
                       </div>
-                    <!-- End Testimonial -->
+            
                 </div>
           
            
@@ -55,55 +55,61 @@
 
 
 <script>
-import { mapState } from 'pinia';
+import { ref, onMounted,watch  } from 'vue';
 import { useProductStore } from '../stores/productStore';
 import Bannerslot from './BannerSlot.vue';
+import { useRoute } from 'vue-router';
+
 
 export default {
   name: "ProductDetails",
   components: { Bannerslot },
 
-  data() {
-    return {
-      currentProduct: {}
-    }
-  },
 
-  watch: {
-    $route(to, from) {
-      // Check if the title in the route parameters has changed
-      if (to.params.title !== from.params.title) {
-        this.updateCurrentProduct();
+    setup() {
+      const productStore = useProductStore();
+      const currentProduct = ref({});
+      const route = ref(useRoute());
+
+
+        onMounted(() => {
+          // Fetch products when the component is mounted
+          productStore.fetchProducts();
+          console.log(productStore.products)
+          updateCurrentProduct();
+          console.log(currentProduct)
+
+        });
+
+        watch(
+      () => [route.value?.params.title], // Use optional chaining to handle undefined
+      ([newTitle, oldTitle]) => {
+        // Check if the title in the route parameters has changed
+        if (newTitle !== oldTitle) {
+          updateCurrentProduct();
+        }
       }
-    },
-  },
+    );
 
-  mounted() {
-    // Initial setup
-    console.log(this.products)
-    this.updateCurrentProduct();
-  },
+    const updateCurrentProduct = () => {
+  // Ensure route is defined before accessing its properties
+  if (route.value) {
+    const title = route.value.params.title; // Use optional chaining to handle undefined
+    console.log(title);
 
-  methods: {
-    updateCurrentProduct() {
-      const title = this.$route.params.title;
-      console.log(title);
+    // Assuming the title is a unique identifier for the blog
+    currentProduct.value = productStore.products.find(product => product.title.replace(/ /g, '-') === title);
+  }
+};
 
-      // Assuming the title is a unique identifier for the blog
-      this.currentProduct = this.products.find(product => product.title.replace(/ /g, '-') === title);
-    },
-  },
-  computed: {
-    ...mapState(useProductStore, {
-      products: 'allProducts'
-    })
-
-    
-  },
-
-
+        return {
+          productStore,currentProduct,route
+        };
+  }
 
 }
+
+
 </script>
 
 <style>

@@ -45,6 +45,7 @@ import { mapState } from 'pinia'
 import { useBlogStore } from '../stores/blogStore';
 
 
+
 export default {
   name: "BlogLayout",
 
@@ -63,6 +64,3 @@ export default {
     }
 
 </script>
-<style lang="">
-  
-</style>

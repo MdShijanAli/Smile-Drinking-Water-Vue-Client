@@ -86,6 +86,11 @@ export default {
           name: "Return & Refund",
           path: '/return-refund'
         },
+        {
+          id: 3,
+          name: "Dashboard",
+          path: '/dashboard'
+        },
       ],
       },
       socials: [

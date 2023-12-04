@@ -56,70 +56,50 @@
         </div>
 
         <Dialog v-model:visible="productDialog" :style="{width: '450px'}" header="Product Details" :modal="true" class="p-fluid">
-            <img v-if="product.image" :src="`https://primefaces.org/cdn/primevue/images/product/${product.image}`" :alt="product.image" class="block m-auto pb-3" />
-            <div class="field">
-                <label for="name">Name</label>
-                <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{'p-invalid': submitted && !product.name}" />
-                <small class="p-error" v-if="submitted && !product.name">Name is required.</small>
+            <Toast />
+        <form action="">
+            <div class="mb-3">
+                <div class="relative  w-full">
+                <input v-model="productName" type="text"
+                  class="peer py-3 px-4 ps-5 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none"
+                  placeholder="Enter Product Name">
+              </div>
             </div>
-            <div class="field">
-                <label for="description">Description</label>
-                <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
-            </div>
-
-            <div class="field">
-				<label for="inventoryStatus" class="mb-3">Inventory Status</label>
-				<Dropdown id="inventoryStatus" v-model="product.inventoryStatus" :options="statuses" optionLabel="label" placeholder="Select a Status">
-					<template #value="slotProps">
-						<div v-if="slotProps.value && slotProps.value.value">
-                            <Tag :value="slotProps.value.value" :severity="getStatusLabel(slotProps.value.label)" />
-                        </div>
-                        <div v-else-if="slotProps.value && !slotProps.value.value">
-                            <Tag :value="slotProps.value" :severity="getStatusLabel(slotProps.value)" />
-                        </div>
-						<span v-else>
-							{{slotProps.placeholder}}
-						</span>
-					</template>
-				</Dropdown>
-			</div>
-
-            <div class="field">
-                <label class="mb-3">Category</label>
-                <div class="formgrid grid">
-                    <div class="field-radiobutton col-6">
-                        <RadioButton id="category1" name="category" value="Accessories" v-model="product.category" />
-                        <label for="category1">Accessories</label>
-                    </div>
-                    <div class="field-radiobutton col-6">
-                        <RadioButton id="category2" name="category" value="Clothing" v-model="product.category" />
-                        <label for="category2">Clothing</label>
-                    </div>
-                    <div class="field-radiobutton col-6">
-                        <RadioButton id="category3" name="category" value="Electronics" v-model="product.category" />
-                        <label for="category3">Electronics</label>
-                    </div>
-                    <div class="field-radiobutton col-6">
-                        <RadioButton id="category4" name="category" value="Fitness" v-model="product.category" />
-                        <label for="category4">Fitness</label>
-                    </div>
-                </div>
+            <div class="mb-3">
+                <div class="relative  w-full">
+                <textarea v-model="productDescription" type="text"
+                  class="peer py-3 px-4 ps-5 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none"
+                  placeholder="Product Description" rows="5"></textarea>
+              </div>
             </div>
 
-            <div class="formgrid grid">
-                <div class="field col">
-                    <label for="price">Price</label>
-                    <InputNumber id="price" v-model="product.price" mode="currency" currency="USD" locale="en-US" />
-                </div>
-                <div class="field col">
-                    <label for="quantity">Quantity</label>
-                    <InputNumber id="quantity" v-model="product.quantity" integeronly />
+            <div  class="border p-2">
+                <div>
+                        <form>
+                        <label class="block">
+                            <span class="sr-only">Choose profile photo</span>
+                            <input @change="handleFileChange" type="file" class="block w-full text-sm text-gray-500
+                                            file:me-4 file:py-2 file:px-4
+                                            file:rounded-lg file:border-0
+                                            file:text-sm file:font-semibold
+                                            file:bg-primary file:text-white
+                                            hover:file:bg-secondary
+                                            transition duration-500 ease-in-out
+                                            file:disabled:opacity-50 file:disabled:pointer-events-none
+                                           "
+                            />
+                        </label>
+                        </form>
                 </div>
             </div>
-            <template #footer>
-                <Button label="Cancel" icon="pi pi-times" text @click="hideDialog"/>
-                <Button label="Save" icon="pi pi-check" text @click="saveProduct" />
-            </template>
+            <div>
+                <div class="flex gap-5 mt-10 justify-end">
+                <Button label="Cancel" icon="pi pi-times" text class="bg-red-600 text-white px-5 py-2.5" @click="hideDialog"/>
+                <Button label="Upload" icon="pi pi-check" text class="bg-green-600 text-white px-5 py-2.5" @click="uploadProduct" />
+                </div>
+            </div>
+        </form>   
+        
         </Dialog>
 
         <Dialog v-model:visible="deleteProductDialog" :style="{width: '450px'}" header="Confirm" :modal="true">
@@ -147,9 +127,10 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref,watch, onMounted } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import { useProductStore } from '../stores/productStore';
+
 
 export default {
     data() {
@@ -162,20 +143,38 @@ export default {
             selectedProducts: null,
             filters: {},
             submitted: false,
-     
+            productName: '',
+            productDescription: '',
+            productImage: null,
+            uploadedImageUrl: null,
+            apiKey: '8d6f88076c0d0741db9ce8b01104af0c',
+
+            
         }
     },
 
+
+
     setup() {
-    const productStore = useProductStore();
+        const productStore = useProductStore();
+
+        const fetchProducts = async () => {
+      try {
+        await productStore.fetchProducts();
+        console.log('Products fetched successfully.');
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
 
     onMounted(() => {
       // Fetch products when the component is mounted
-      productStore.fetchProducts();
+      fetchProducts();
     });
 
     return {
       productStore,
+      fetchProducts, // Expose the fetchProducts method
     };
   },
     created() {
@@ -197,28 +196,100 @@ export default {
             this.productDialog = false;
             this.submitted = false;
         },
-        saveProduct() {
-            this.submitted = true;
+    
+    handleFileChange(event) {
+      this.selectedFile = event.target.files[0];
+    },
 
-			if (this.product.name.trim()) {
-                if (this.product.id) {
-                    this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value: this.product.inventoryStatus;
-                    this.products[this.findIndexById(this.product.id)] = this.product;
-                    this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-                }
-                else {
-                    this.product.id = this.createId();
-                    this.product.code = this.createId();
-                    this.product.image = 'product-placeholder.svg';
-                    this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-                    this.products.push(this.product);
-                    this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-                }
 
-                this.productDialog = false;
-                this.product = {};
-            }
-        },
+
+
+    uploadProduct() {
+  this.submitted = true;
+
+        // img api
+
+
+  if (!this.selectedFile) {
+    console.error('No file selected.');
+    return;
+  }
+
+  const formData = new FormData();
+        formData.append('image', this.selectedFile);
+
+
+
+  try {
+    fetch(`https://api.imgbb.com/1/upload?key=${this.apiKey}`, {
+      method: 'POST',
+      
+      body: formData,
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Image upload failed');
+        }
+        return response.json();
+      })
+      .then(result => {
+        this.uploadedImageUrl = result.data.url;
+        console.log('Image uploaded successfully. URL:', this.uploadedImageUrl);
+
+        const lastCode = this.productStore.products[this.productStore.products.length - 1].code;
+        const newCode = parseInt(lastCode, 10) + 1;
+        const generatedCode = newCode.toString().padStart(4, '0');
+
+          const uploadData = {
+              img: this.uploadedImageUrl,
+              title: this.productName,
+              description: this.productDescription,
+              code: generatedCode
+          };    
+
+          console.log(uploadData);
+
+           // Post data to your server
+            fetch('http://localhost:3000/api/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(uploadData),
+            })
+
+            .then(response => {
+        if (!response.ok) {
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to insert product data', life: 3000 });
+            throw new Error('Failed to insert product data');
+        }
+        return response.text();
+      })
+      .then(data => {
+        //   console.log('Product data inserted successfully:', data);
+          this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Product Successfully Upload Done.', life: 3000 });
+          return  new Promise(resolve => setTimeout(resolve, 1000)); 
+      })
+      .then(() => {
+          this.productDialog = false;
+          this.fetchProducts();
+        })
+          .catch(error => {
+                    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Error inserting product data', life: 3000 });
+        console.error('Error inserting product data:', error);
+      });
+
+          
+      })
+        .catch(error => {
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Error uploading image', life: 3000 });
+        console.error('Error uploading image:', error);
+      });
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+},
+
         editProduct(product) {
             this.product = {...product};
             this.productDialog = true;
@@ -279,4 +350,5 @@ export default {
 p {
     line-height: 1.75;
 }
+
 </style>

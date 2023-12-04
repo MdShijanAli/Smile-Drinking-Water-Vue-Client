@@ -20,6 +20,9 @@ import RadioButton from 'primevue/radioButton'
 import InputNumber from 'primevue/inputNumber'
 import "preline/preline";
 
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
+
 import 'primevue/resources/themes/lara-light-green/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
@@ -30,6 +33,7 @@ import router from './router'
 const app = createApp(App)
 const pinia = createPinia();
 
+app.use(ToastService);
 app.use(pinia);
 app.use(PrimeVue);
 app.use(createPinia())
@@ -50,4 +54,5 @@ app.component('Dialog', Dialog)
 app.component('Dropdown', Dropdown)
 app.component('RadioButton', RadioButton)
 app.component('InputNumber', InputNumber)
+app.component('Toast', Toast);
 app.mount('#app')

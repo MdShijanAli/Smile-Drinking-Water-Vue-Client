@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div class="grid grid-cols-5">
+    <div class="grid md:grid-cols-5">
           <div class="col-span-1 border">
-         
-
                <div class="avatar p-5 w-full flex justify-center">
                   <div class="w-24 rounded-full ring ring-primary ring-offset-2 block">
                     <img class="mx-auto" src="https://i.ibb.co/4VyRt2p/my-photo.jpg" />
@@ -17,7 +15,7 @@
                   <div class="divider"></div> 
 
                <div>
-                <ul class="f-m-m">
+                <ul class="flex gap-5 justify-center sm:block">
                 <li class="">
                   <RouterLink to="/dashboard" tabindex="0"
                     class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">
@@ -39,7 +37,7 @@
               </ul>
                </div>
           </div>
-          <div class="col-span-4">
+          <div class="md:col-span-4">
             <router-view></router-view>
           </div>
     </div>

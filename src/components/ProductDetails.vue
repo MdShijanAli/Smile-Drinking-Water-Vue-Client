@@ -1,8 +1,13 @@
 <template>
  <Bannerslot :bannerTitle="currentProduct.title"/>
 
+ <div v-if="isLoading"> <!-- Show loading component when isLoading is true -->
+      <!-- Your loading component goes here -->
+      Loading...
+    </div>
 
- <div>
+<div v-else>
+  <div>
   <div class="max-w-7xl mx-auto px-6 py-10">
       <div class="grid grid-cols-2 gap-10">
            <div class="border p-10">
@@ -51,6 +56,7 @@
     </div>
     </div>
 </div>
+</div>
 </template>
 
 
@@ -70,25 +76,28 @@ export default {
       const productStore = useProductStore();
       const currentProduct = ref({});
       const route = ref(useRoute());
+      const isLoading = ref(true);
 
 
-        onMounted(() => {
-          // Fetch products when the component is mounted
-          productStore.fetchProducts();
-          console.log(productStore.products)
-          updateCurrentProduct();
-          console.log(currentProduct)
+      onMounted(async () => {
+      // Fetch products when the component is mounted
+      await productStore.fetchProducts();
+      console.log(productStore.products);
+      updateCurrentProduct();
+      console.log(currentProduct);
 
-        });
+      // Set isLoading to false once products are fetched
+      isLoading.value = false;
+    });
 
         watch(
-      () => [route.value?.params.title], // Use optional chaining to handle undefined
-      ([newTitle, oldTitle]) => {
-        // Check if the title in the route parameters has changed
-        if (newTitle !== oldTitle) {
-          updateCurrentProduct();
-        }
-      }
+              () => [route.value?.params.title], // Use optional chaining to handle undefined
+              ([newTitle, oldTitle]) => {
+                // Check if the title in the route parameters has changed
+                if (newTitle !== oldTitle) {
+                  updateCurrentProduct();
+                }
+              }
     );
 
     const updateCurrentProduct = () => {
@@ -103,7 +112,7 @@ export default {
 };
 
         return {
-          productStore,currentProduct,route
+          productStore,currentProduct,route,isLoading
         };
   }
 

@@ -9,15 +9,16 @@ import TieredMenu from 'primevue/tieredMenu'
 import DataView from 'primevue/dataView'
 import Rating from 'primevue/rating'
 import Toolbar from 'primevue/toolbar'
-import FileUpload from 'primevue/fileUpload'
+import FileUpload from 'primevue/fileupload'
 import DataTable from 'primevue/dataTable'
-import InputText from 'primevue/inputText'
+import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
-import Column from 'primevue/Column'
+import Column from 'primevue/column'
 import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
-import RadioButton from 'primevue/radioButton'
-import InputNumber from 'primevue/inputNumber'
+import RadioButton from 'primevue/radiobutton'
+import InputNumber from 'primevue/inputnumber'
+import Skeleton from 'primevue/skeleton'
 import "preline/preline";
 
 import Toast from 'primevue/toast';
@@ -55,4 +56,5 @@ app.component('Dropdown', Dropdown)
 app.component('RadioButton', RadioButton)
 app.component('InputNumber', InputNumber)
 app.component('Toast', Toast);
+app.component('Skeleton', Skeleton);
 app.mount('#app')

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="grid grid-cols-5 gap-10">
-          <div class="col-span-1 border h-screen">
+    <div class="grid grid-cols-5">
+          <div class="col-span-1 border">
          
 
                <div class="avatar p-5 w-full flex justify-center">
@@ -23,36 +23,18 @@
                     class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">
                     Dashboard</RouterLink>
                 </li>
-             
-                <li class="">
-                  <div
-                    class="parent_menu focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base px-3 flex items-center justify-between hover:bg-primary hover:text-white py-1 my-1 md:py-1 md:my-2 cursor-pointer">
-                    <span>Products</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6" width="18" height="18"
-                      viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor" fill="none" stroke-linecap="round"
-                      stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path d="M6 9l6 6l6 -6"></path>
-                    </svg>
-                  </div>
-                  <div class="child_menu">
-                    <ul class="my-2 text-base md:text-lg">
-                      <li><RouterLink to="/all-products"
-                          class="py-1 px-2 m-1 hover:bg-primary hover:text-white block rounded">All Products</RouterLink>
-                      </li>
-                      <li><a href="./pages/products/womens.html"
-                          class="py-1 px-2 m-1 hover:bg-primary hover:text-white block rounded">Add Product</a>
-                      </li>
 
+                  
+                      <li><RouterLink to="/all-products"
+                          class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">All Products</RouterLink>
+                      </li>
                       <li class="">
-                  <RouterLink to="/" tabindex="0"
-                    class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">
-                    Logout</RouterLink>
-                </li>
+                        <RouterLink to="/" tabindex="0"
+                          class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">
+                          Logout</RouterLink>
+                      </li>
                
-                    </ul>
-                  </div>
-                </li>
+          
            
               </ul>
                </div>

@@ -5,7 +5,7 @@
             <Toolbar class="mb-4 border m-5">
                 <template #start>
                     <Button label="New" icon="pi pi-plus" severity="success" class="mr-2 bg-green-500 px-4 py-2 text-white hover:bg-green-700 transition duration-500 ease-in-out" @click="openNew" />
-                    <Button label="Delete" icon="pi pi-trash" class="bg-red-400 text-white px-4 py-2" severity="danger" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length" />
+                    <Button label="Delete" icon="pi pi-trash" :class="selectedProducts?.length? 'bg-red-600': 'bg-red-400 cursor-not-allowed'" class="text-white px-4 py-2" severity="danger" @click="confirmDeleteSelected" />
                 </template>
 
                 <template #end>
@@ -19,11 +19,11 @@
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                 <template #header>
-                    <div class="flex flex-wrap gap-2 items-center justify-between">
+                    <div class="flex flex-wrap items-center justify-between">
                         <h4 class="m-0">Manage Products</h4>
-						<span class="p-input-icon-left">
+						<span class="p-input-icon-left flex gap-5">
                             <i class="pi pi-search mr-5" />
-                            <InputText v-model="filters['global'].value" class="px-5 py-2 border" placeholder="Search..." />
+                            <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
                         </span>
 					</div>
                 </template>
@@ -48,8 +48,8 @@
          
                 <Column :exportable="false" style="min-width:8rem">
                     <template #body="slotProps">
-                        <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click="editProduct(slotProps.data)" />
-                        <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteProduct(slotProps.data)" />
+                        <Button icon="pi pi-pencil" outlined rounded class="mr-2 border border-[#1EBC87] text-[#1EBC87]" @click="editProduct(slotProps.data)" />
+                        <Button icon="pi pi-trash" outlined rounded class="border text-red-600 border-red-600" @click="confirmDeleteProduct(slotProps.data)" />
                     </template>
                 </Column>
             </DataTable>
@@ -57,10 +57,11 @@
 
         <Dialog v-model:visible="productDialog" :style="{width: '450px'}" header="Product Details" :modal="true" class="p-fluid">
             <Toast />
+            
         <form action="">
             <div class="mb-3">
                 <div class="relative  w-full">
-                <input v-model="productName" type="text"
+                <input v-model="productName" type="text" 
                   class="peer py-3 px-4 ps-5 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Enter Product Name">
               </div>
@@ -101,27 +102,58 @@
         </form>   
         
         </Dialog>
-
-        <Dialog v-model:visible="deleteProductDialog" :style="{width: '450px'}" header="Confirm" :modal="true">
-            <div class="confirmation-content">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-                <span v-if="product">Are you sure you want to delete <b>{{product.name}}</b>?</span>
+        <Dialog v-model:visible="productEditDialog" :style="{width: '500px'}" header="Product Details" :modal="true" class="p-fluid">
+            <Toast />
+            <img v-if="product.img" :src="product.img" :alt="product.title" class="block m-auto pb-3" />
+        <form action="">
+            <div class="mb-3">
+                <div class="relative  w-full">
+                <input v-model="product.title" type="text" 
+                  class="peer py-3 px-4 ps-5 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none"
+                  placeholder="Enter Product Name">
+              </div>
             </div>
-            <template #footer>
-                <Button label="No" icon="pi pi-times" text @click="deleteProductDialog = false"/>
-                <Button label="Yes" icon="pi pi-check" text @click="deleteProduct" />
-            </template>
+            <div class="mb-3">
+                <div class="relative  w-full">
+                <textarea v-model="product.description" type="text"
+                  class="peer py-3 px-4 ps-5 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none"
+                  placeholder="Product Description" rows="5"></textarea>
+              </div>
+            </div>
+
+  
+            <div>
+                <div class="flex gap-5 mt-10 justify-end">
+                <Button label="Cancel" icon="pi pi-times" text class="bg-red-600 text-white px-5 py-2.5" @click="productEditDialog = false"/>
+                <Button label="Update" icon="pi pi-check" text class="bg-green-600 text-white px-5 py-2.5" @click="updateProduct(product.id)" />
+                </div>
+            </div>
+        </form>   
+        
+        </Dialog>
+
+        <Dialog v-model:visible="deleteProductDialog" :style="{width: '500px'}" header="Confirm" :modal="true">
+            <Toast />
+            <div class="flex items-center gap-5">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                <span v-if="product">Are you sure you want to delete <b>{{product.title}}</b>?</span>
+            </div>
+            <div class="flex gap-5 mt-10 justify-end">
+                <Button label="No" icon="pi pi-times" text class="bg-black text-white px-5 py-2.5" @click="deleteProductDialog = false"/>
+                <Button label="Yes" icon="pi pi-check" text class="bg-red-600 text-white px-5 py-2.5" @click="deleteProduct(product.id)" />
+            </div>
         </Dialog>
 
         <Dialog v-model:visible="deleteProductsDialog" :style="{width: '450px'}" header="Confirm" :modal="true">
-            <div class="confirmation-content">
+            <Toast />
+            <div class="flex items-center gap-5">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
                 <span v-if="product">Are you sure you want to delete the selected products?</span>
             </div>
-            <template #footer>
-                <Button label="No" icon="pi pi-times" text @click="deleteProductsDialog = false"/>
-                <Button label="Yes" icon="pi pi-check" text @click="deleteSelectedProducts" />
-            </template>
+            <div class="flex gap-5 mt-10 justify-end">
+                <Button label="No" icon="pi pi-times" text class="bg-black text-white px-5 py-2.5" @click="deleteProductsDialog = false"/>
+                <Button label="Yes" icon="pi pi-check" text class="bg-red-600 text-white px-5 py-2.5" @click="deleteSelectedProducts(selectedProducts)" />
+            </div>
         </Dialog>
 	</div>
 </template>
@@ -137,6 +169,7 @@ export default {
         return {
             products: null,
             productDialog: false,
+            productEditDialog: false,
             deleteProductDialog: false,
             deleteProductsDialog: false,
             product: {},
@@ -202,7 +235,7 @@ export default {
     },
 
 
-
+// Post Product
 
     uploadProduct() {
   this.submitted = true;
@@ -290,19 +323,85 @@ export default {
   }
 },
 
-        editProduct(product) {
-            this.product = {...product};
-            this.productDialog = true;
+async updateProductFunction(productId) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: this.product.title,
+        description: this.product.description,
+        // Add other fields as needed
+      }),
+    });
+
+    if (response.ok) {
+      this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Product updated successfully', life: 3000 });
+      return new Promise(resolve => setTimeout(resolve, 1000));
+        
+      // Optionally, you can refresh your product list or do any other necessary actions.
+    } else {
+      console.error('Failed to update product');
+    }
+  } catch (error) {
+    console.error('Error updating product:', error);
+    }
+  finally {
+      this.productEditDialog = false;
+      this.fetchProducts();
+  }
+},
+
+        updateProduct(id) {
+            console.log(id)
+            this.updateProductFunction(id)
+            this.product = {}
+        },
+        editProduct(prod) {
+            this.product = prod
+      
+            this.productEditDialog = true;
+            console.log(prod)
         },
         confirmDeleteProduct(product) {
             this.product = product;
             this.deleteProductDialog = true;
+            console.log(product)
         },
-        deleteProduct() {
-            this.products = this.products.filter(val => val.id !== this.product.id);
-            this.deleteProductDialog = false;
-            this.product = {};
-            this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+
+        // Delete Single Products
+        async deleteProductFunction(productId) {
+            try {
+            const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+                method: 'DELETE',
+            });
+
+                if (response.ok) {
+                    this.$toast.add({ severity: 'success', summary: 'Successful', detail: `Product with ID ${productId} deleted successfully`, life: 3000 });
+                    await  new Promise(resolve => setTimeout(resolve, 1000)); 
+                    this.product = {};
+                    
+            } else {
+                console.error('Failed to delete product');
+            }
+            } catch (error) {
+            console.error('Error deleting product:', error);
+            }
+            finally {
+                // Call fetchProducts regardless of success or error
+                this.deleteProductDialog = false;
+                this.fetchProducts();
+            }
+
+        },
+        deleteProduct(id) {
+            console.log(id);
+    // Call the delete function with the product ID
+            this.deleteProductFunction(id);
+            
+            
         },
         findIndexById(id) {
             let index = -1;
@@ -329,12 +428,34 @@ export default {
         confirmDeleteSelected() {
             this.deleteProductsDialog = true;
         },
-        deleteSelectedProducts() {
-            this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-            this.deleteProductsDialog = false;
-            this.selectedProducts = null;
-            this.$toast.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
-        },
+        deleteSelectedProducts(products) {
+  // Iterate over the selected products and delete each one
+                products.forEach(async (product) => {
+                    try {
+                    const response = await fetch(`http://localhost:3000/api/products/${product.id}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (response.ok) {
+                        console.log(`Product with ID ${product.id} deleted successfully`);
+                        this.$toast.add({ severity: 'success', summary: 'Successful', detail: `Product with Name ${product.title} deleted successfully`, life: 3000 });
+                        await new Promise(resolve => setTimeout(resolve, 1000)); 
+                        this.product = {};
+                        // Optionally, you can refresh your product list or do any other necessary actions.
+                    } else {
+                        console.error(`Failed to delete product with ID ${product.id}`);
+                    }
+                    } catch (error) {
+                    console.error(`Error deleting product with ID ${product.id}:`, error);
+                    }
+                    finally {
+                        this.deleteProductsDialog = false;
+                        this.fetchProducts();
+                    }
+                });
+                
+                // Optionally, you can refresh your product list or do any other necessary actions.
+                },
         initFilters() {
             this.filters = {
                 'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
@@ -345,10 +466,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
-p {
-    line-height: 1.75;
+<style >
+.card{
+    padding: 50px !important;
+    border-radius: 0px;
 }
 
+.p-checkbox-box.p-component {
+    border: 1px solid #ddd !important;
+}
 </style>

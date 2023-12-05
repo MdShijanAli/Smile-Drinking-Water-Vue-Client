@@ -10,7 +10,7 @@
     <div class="flex items-center justify-between w-full py-2">
       <div class="lg:w-[180px] sm:w-[100px] w-[80px]">
         <RouterLink to="/" class="flex items-center">
-          <img :src="logo" class="h-full w-full mr-3" alt="Logo">
+          <img :src="websiteInfo[0]?.logoImg" class="h-full w-full mr-3" alt="Logo">
         </RouterLink>
       </div>
 
@@ -54,14 +54,14 @@
           <!-- Sidebar content here -->
           <div class="w-[150px] mx-auto">
             <RouterLink to="/" class="flex items-center">
-              <img :src="logo" class="h-full w-full mr-3" alt="Logo">
+              <img :src="websiteInfo[0]?.logoImg" class="h-full w-full mr-3" alt="Logo">
             </RouterLink>
           </div>
           <div class="border-b my-3"></div>
           <li v-for="menu in menuItems" :key="menu.id">
             <RouterLink class="my-1" :to="menu.path">{{menu.name}}</RouterLink>
           </li>
-    
+
 
           <li class="">
             <a onclick="orderOnlineModal.showModal()"
@@ -83,16 +83,19 @@
 <OrderOnlineModal modal="orderOnlineModal" />
 </template>
 <script>
-import logoimg from "../assets/images/logo.png"
+import { ref, watchEffect } from 'vue';
+// import logoimg from "../assets/images/logo.png"
 import { RouterLink } from "vue-router";
 import OrderOnlineModal from "./OrderOnlineModal.vue";
+import {useWebsiteInfoStore} from '../stores/websiteInfoStore'
+
 export default {
     name: "Header",
     data() {
         return {
             isTop: true,
             isScrolled: false,
-            logo: logoimg,
+            // logo: logoimg,
             menuItems: [
                 {
                     id: 1,
@@ -124,7 +127,8 @@ export default {
     },
     mounted() {
         // Add scroll event listener
-        window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
+        // console.log(this.websiteInfo)
     },
     destroyed() {
         // Remove scroll event listener when component is destroyed
@@ -136,8 +140,27 @@ export default {
             this.isTop = window.scrollY === 0;
             this.isScrolled = window.scrollY > 0;
         }
-    },
-    components: { OrderOnlineModal }
+  },
+
+  components: { OrderOnlineModal },
+
+
+  setup() {
+    const websiteInfoStore = useWebsiteInfoStore();
+  websiteInfoStore.fetchWebsiteInfo();
+
+  // Wait for the action to complete
+  const websiteInfo = ref(null);
+
+  watchEffect(() => {
+    websiteInfo.value = websiteInfoStore.websiteInfos;
+    console.log('websiteInfo:', websiteInfo.value[0]);
+  });
+
+  return {
+    websiteInfo,
+  };
+  },
 };
 </script>
 <style scoped>

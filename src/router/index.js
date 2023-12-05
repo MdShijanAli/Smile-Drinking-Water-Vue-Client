@@ -10,6 +10,7 @@ import Dashboard from '../views/Dashboard.vue'
 import DefaultLayout from '../components/DefaultLayout.vue'
 import DashboardLayout from '../components/DashboardLayout.vue'
 import DashboardProducts from '../components/DashboardProducts.vue'
+import Settings from '../components/Settings.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +69,10 @@ const router = createRouter({
         {
           path: '/all-products',
           component: DashboardProducts
+        },
+        {
+          path: '/settings',
+          component: Settings
         },
       ],
     },

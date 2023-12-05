@@ -4,12 +4,12 @@
           <div class="col-span-1 border">
                <div class="avatar p-5 w-full flex justify-center">
                   <div class="w-24 rounded-full ring ring-primary ring-offset-2 block">
-                    <img class="mx-auto" src="https://i.ibb.co/4VyRt2p/my-photo.jpg" />
+                    <img class="mx-auto" :src="websiteInfo[0].img" />
                   </div>
                 </div>
                   <div class="pt-5 text-center">
-                    <h1 class="text-2xl font-semibold">Md Shijan Ali</h1>
-                    <p>Email: shijan135@gmail.com</p>
+                    <h1 class="text-2xl font-semibold">{{ websiteInfo[0].name }}</h1>
+                    <p>Email: {{ websiteInfo[0].email }}</p>
                   </div>
                   
                   <div class="divider"></div> 
@@ -25,6 +25,9 @@
                   
                       <li><RouterLink to="/all-products"
                           class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">All Products</RouterLink>
+                      </li>
+                      <li><RouterLink to="/settings"
+                          class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">Settings</RouterLink>
                       </li>
                       <li class="">
                         <RouterLink to="/" tabindex="0"
@@ -44,6 +47,8 @@
   </div>
 </template>
 <script >
+import { ref, watchEffect } from 'vue';
+import { useWebsiteInfoStore } from '../stores/websiteInfoStore';
 
 
 
@@ -69,6 +74,24 @@ export default {
         });
       });
     });
+  },
+
+
+  setup() {
+    const websiteInfoStore = useWebsiteInfoStore();
+  websiteInfoStore.fetchWebsiteInfo();
+
+  // Wait for the action to complete
+  const websiteInfo = ref(null);
+
+  watchEffect(() => {
+    websiteInfo.value = websiteInfoStore.websiteInfos;
+    console.log('websiteInfo:', websiteInfo.value[0]);
+  });
+
+  return {
+    websiteInfo,
+  };
   },
 
 }

@@ -26,6 +26,12 @@
                       <li><RouterLink to="/all-products"
                           class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">All Products</RouterLink>
                       </li>
+                      <li><RouterLink to="/orders"
+                          class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">Orders</RouterLink>
+                      </li>
+                      <li><RouterLink to="/jobs"
+                          class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">Jobs</RouterLink>
+                      </li>
                       <li><RouterLink to="/settings"
                           class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">Settings</RouterLink>
                       </li>

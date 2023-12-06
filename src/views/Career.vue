@@ -10,7 +10,10 @@
             Open Positions!!</h1>
         </div>
 
-        <div class="grid grid-cols-1 items-center sm:gap-8 gap-5 mt-10">
+
+        
+
+        <!-- <div class="grid grid-cols-1 items-center sm:gap-8 gap-5 mt-10">
 
 
       
@@ -37,9 +40,58 @@
           
           
 
+        </div> -->
+
+        <div class=" mt-10">
+          <div v-for="job in jobs" :key="job.id" @click="jobView(job)"  class="shad md:px-10 px-5 py-3 my-3 md:py-5 rounded-md sm:flex grid items-center justify-between hover:bg-sky-100">
+            <div class="flex gap-5 items-center">
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">
+                  ID: </span>{{job.id}} </p>
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Post
+                  Name: </span>{{job.title}} </p>
+         
+
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Job Post Date: </span> {{job.jobPostTime.slice(0,10)}}</p>
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Last Apply
+                  Date: </span> {{job.applyLastDate.slice(0,10)}}</p>
+            </div>
+      
+            
+          </div>
+
+          <Dialog v-model:visible="jobViewDialog" modal header="Job Details" :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+            <div class="md:px-10 px-5 py-3 md:py-5 rounded-md sm:flex grid items-center justify-between ">
+            <div class="">
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">
+                  ID: </span>{{selectedjob.id}} </p>
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Post
+                  Name: </span>{{selectedjob.title}} </p>
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span
+                  class="font-semibold">Location: </span> {{selectedjob.location}}</p>
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Job
+                  Type: </span> {{selectedjob.jobType}}</p>
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span
+                  class="font-semibold">Vacancy: </span> {{selectedjob.vacancy}}</p>
+
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Job Post Date: </span> {{selectedjob.jobPostTime.slice(0,10)}}</p>
+              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Last Apply
+                  Date: </span> {{selectedjob.applyLastDate.slice(0,10)}}</p>
+
+                  <p><span  class="font-semibold">Description:</span> <label v-html="selectedjob.description"></label></p>
+
+
+                  <div class="text-right sm:mt-6 mt-3">
+                    <button @click="selectJob(job.title)" onclick="career_apply_modal.showModal()"
+                      class="sm:px-6 px-3 py-1 sm:py-2 sm:text-base text-sm font-semibold bg-primary hover:bg-secondary transitio duration-700 ease-in-out text-white rounded-sm">Apply
+                      Now</button>
+                </div>
+            </div>
+         
+            
+          </div>
+        </Dialog>
+        
         </div>
-
-
        
  
 
@@ -59,7 +111,7 @@
   <form @submit.prevent="submitForm">
   <div class="p-4 overflow-y-auto">
   <div>
-  <input type="text" disabled :value="'Application For ' + selectedJob"
+  <input type="text" disabled :value="'Application For ' + selectedjob?.title"
   class="peer py-3 px-4 ps-11 block w-full bg-gray-200 text-center rounded-sm text-md cursor-not-allowed"
   >
   </div>
@@ -200,6 +252,7 @@
 
 </template>
 <script>
+import axios from 'axios';
 import AddressComponent from "../components/AddressComponent.vue";
 import BannerSlot from "../components/BannerSlot.vue"
 
@@ -209,52 +262,36 @@ components: { BannerSlot, AddressComponent },
 
   data() {
     return {
-      selectedJob: "",
-      jobs: [
-        {
-          id: 1,
-          title: "General Manager",
-          location: "Uttara, Dhaka",
-          jobType: "Full Time",
-          vacancy: "Not specific",
-          applyLastDate: "2023-12-15"
-        },
-        {
-          id: 2,
-          title: "Assistant Manager",
-          location: "Uttara, Dhaka",
-          jobType: "Full Time",
-          vacancy: "Not specific",
-          applyLastDate: "2023-12-15"
-        },
-        {
-          id: 3,
-          title: "Sales Manager",
-          location: "Uttara, Dhaka",
-          jobType: "Full Time",
-          vacancy: "Not specific",
-          applyLastDate: "2023-12-15"
-        },
-        {
-          id: 4,
-          title: "Field Officer",
-          location: "Uttara, Dhaka",
-          jobType: "Full Time",
-          vacancy: "Not specific",
-          applyLastDate: "2023-12-15"
-        },
-      ],
+      selectedJob: {},
+      jobViewDialog: false,
+      jobs: [],
 
 
   
     }
   },
 
-    methods: {
-        selectJob(jobName) {
-        this.selectedJob = jobName;
-        // console.log(job)
-      }
+  mounted() {
+    axios.get('http://localhost:3000/api/jobs')
+    .then(response => {
+      // Access the data property of the response
+      this.jobs = response.data;
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle errors
+      console.error('Error fetching orders:', error);
+    });
+  },
+
+  methods: {
+       jobView(prod) {
+            this.selectedjob = prod
+      
+            this.jobViewDialog = true;
+            console.log(prod)
+        },
+ 
     },
 
 }

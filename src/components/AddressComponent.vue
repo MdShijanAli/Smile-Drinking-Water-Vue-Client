@@ -2,7 +2,7 @@
   <div>
     <div class="sm:flex grid gap-5">
               <div class="relative  sm:w-1/2 w-full">
-                  <select @click="fetchData" v-model="division" @change="selectedDivision" id="division" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
+                  <select required @change="selectedDivision" id="division" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
                   
                   focus:pt-6
                   focus:pb-2
@@ -23,7 +23,7 @@
                     peer-[:not(:placeholder-shown)]:text-gray-500">Division</label>
               </div>
               <div class="relative  sm:w-1/2 w-full">
-                  <select v-model="district" @change="selectedDistrict" id="district" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
+                  <select required @change="selectedDistrict" id="district" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
                   focus:pt-6
                   focus:pb-2
                   [&:not(:placeholder-shown)]:pt-6
@@ -45,7 +45,7 @@
             
             <div class="sm:flex grid gap-5 my-5">
               <div class="relative  sm:w-1/2 w-full">
-                  <select v-model="upazila" @change="selectedUpazila" id="upazila" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
+                  <select required @change="selectedUpazila" id="upazila" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
                   focus:pt-6
                   focus:pb-2
                   [&:not(:placeholder-shown)]:pt-6
@@ -64,7 +64,7 @@
                     peer-[:not(:placeholder-shown)]:text-gray-500">Upazila</label>
               </div>
               <div class="relative  sm:w-1/2 w-full">
-                  <select v-model="union" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
+                  <select required @change="selectedUnion" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
                   focus:pt-6
                   focus:pb-2
                   [&:not(:placeholder-shown)]:pt-6
@@ -97,7 +97,11 @@ export default {
       districts: [],
       unions: [],
       upazilas: [],
-
+      sdivision: "",
+      sdistrict: "",
+      supazila: "",
+      sunion: "",
+      
   
   
     }
@@ -120,15 +124,18 @@ fetch('/divisions.json')
 
 methods: {
 selectedDivision(selectDivision) {
-if(!selectDivision){
-  return this.districts = "";
-}
+    if (!selectDivision) {
+      return this.districts = "";
+    }
+    this.sdivision = this.divisions.filter(div=> div.id === selectDivision?.target.value)[0].name
+
 
     // Fetch districts data
 fetch('/districts.json')
 .then(res => res.json())
 .then(data => {
   this.districts = data[2].data.sort((a, b) => a.name.localeCompare(b.name)).filter((dis) => dis.division_id === selectDivision.target.value);
+  this.$emit('division-selected', this.sdivision); 
 })
 .catch(error => {
   console.error('Error fetching districts data:', error);
@@ -138,12 +145,15 @@ selectedDistrict(selectDistrict) {
   if(!selectDistrict){
     return this.upazilas = "";
   }
-  
+
+  this.sdistrict = this.districts.filter(div=> div.id === selectDistrict?.target.value)[0].name
+
 // Fetch upazilas data
 fetch('/upazilas.json')
 .then(res => res.json())
 .then(data => {
   this.upazilas = data[2].data.sort((a, b) => a.name.localeCompare(b.name)).filter((upa) => upa.district_id === selectDistrict.target.value);
+  this.$emit('district-selected', this.sdistrict); 
 })
 .catch(error => {
   console.error('Error fetching upazilas data:', error);
@@ -153,51 +163,27 @@ selectedUpazila(selectUpazila) {
   if(!selectUpazila){
     return this.unions = "";
   }
+  this.supazila = this.upazilas.filter(div=> div.id === selectUpazila?.target.value)[0].name
 //  // Fetch unions data
 fetch('/unions.json')
 .then(res => res.json())
 .then(data => {
   this.unions = data[2].data.sort((a, b) => a.name.localeCompare(b.name)).filter((uni) => uni.upazilla_id === selectUpazila.target.value);
+  this.$emit('upazila-selected', this.supazila); 
+ 
 })
 .catch(error => {
   console.error('Error fetching unions data:', error);
 });
   },
 
-  handleFileChange(event) {
-    // Update the 'cv' data property with the selected file
-    this.cv = event.target.files[0];
-  },
+  selectedUnion(selectUnion) {
+    if (selectUnion) {
+      this.sunion = this.unions.filter(div=> div.id === selectUnion.target.value)[0].name
+      this.$emit('union-selected', this.sunion); 
+    }
+  }
 
-  submitForm() {
-    // You can access the form data here and perform any additional actions
-
-    const divisionName = this.divisions.find(div => div.id == this.division).name;
-    const districtName = this.districts.find(dis => dis.id == this.district).name;
-    const upazilaName = this.upazilas.find(upa => upa.id == this.upazila).name;
-    const unionName = this.unions.find(uni => uni.id == this.union).name;
-    
-
-    const data = {
-      "First Name": this.firstName,
-      "Last Name": this.lastName,
-      "Email": this.email,
-      "Phone": this.phone,
-      "Division": divisionName,
-      "District": districtName,
-      "Upazila": upazilaName,
-      "Union": unionName,
-      "Full Address": this.fullAddress,
-      "CV": this.cv,
-      "Job Title": this.job
-     }
-
-      console.log(data);
- 
-    
-    // Assuming you have a toast component, you can use it to display a success message
-
-  },
 
 
 

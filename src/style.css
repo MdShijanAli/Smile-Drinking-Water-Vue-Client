@@ -26,3 +26,7 @@ h1,h2,h3,h4,h5,h6,p,span,a,li{
     .animate-up-down {
     animation: upDown 5s ease-in infinite alternate-reverse;
   } 
+
+  .p-paginator.p-component {
+    border: 1px solid #ddd;
+}

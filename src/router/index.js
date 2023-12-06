@@ -11,6 +11,8 @@ import DefaultLayout from '../components/DefaultLayout.vue'
 import DashboardLayout from '../components/DashboardLayout.vue'
 import DashboardProducts from '../components/DashboardProducts.vue'
 import Settings from '../components/Settings.vue'
+import DashboardOrders from '../components/DashboardOrders.vue'
+import Jobs from '../components/DashboardJobs.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +75,14 @@ const router = createRouter({
         {
           path: '/settings',
           component: Settings
+        },
+        {
+          path: '/orders',
+          component: DashboardOrders
+        },
+        {
+          path: '/jobs',
+          component: Jobs
         },
       ],
     },

@@ -13,7 +13,7 @@
           <div class="overflow-y-auto">
             <div class="sm:flex grid gap-5 items-center w-full">
               <div class="relative sm:w-1/2 w-full">
-                <input v-model="firstName" type="text"
+                <input v-model="firstName" type="text" required
                   class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Enter First Name">
                 <div
@@ -28,7 +28,7 @@
               </div>
 
               <div class="relative sm:w-1/2 w-full">
-                <input v-model="lastName" type="text" 
+                <input v-model="lastName" type="text"  required
                   class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none "
                   placeholder="Enter Last Name">
                 <div
@@ -44,7 +44,7 @@
             </div>
             <div class="sm:flex grid gap-5 items-center w-full my-5">
               <div class="relative sm:w-1/2 w-full">
-                <input v-model="email" type="email" 
+                <input v-model="email" type="email" required
                   class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Enter Email">
                 <div
@@ -58,7 +58,7 @@
               </div>
 
               <div class="relative sm:w-1/2 w-full">
-                <input v-model="phone" type="tel"
+                <input v-model="phone" type="tel" required
                   class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Enter Phone">
                 <div
@@ -74,11 +74,16 @@
             
 
 
-            <AddressComponent />
+            <AddressComponent 
+            @division-selected="handleDivisionSelected" 
+            @district-selected="handleDistrictSelected" 
+            @upazila-selected="handleUpazilaSelected" 
+            @union-selected="handleUnionSelected"
+            />
 
             <div class="relative my-5">
               <div class="relative">
-                <input v-model="fullAddress" type="text"
+                <input v-model="fullAddress" type="text" 
                   class="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Enter Full Address">
                 <div
@@ -97,7 +102,7 @@
          
 
             <div class="relative">
-                  <select  v-model="service" id="service" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
+                  <select required v-model="service" id="service" class="peer p-4 pe-9 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary focus:ring-primary focus:outline-primary disabled:opacity-50 disabled:pointer-events-none 
                   
                   focus:pt-6
                   focus:pb-2
@@ -144,11 +149,13 @@
   </div>
   <form method="dialog" class="modal-backdrop">
     <button>close</button>
+    <Toast />
   </form>
  
 </dialog>
 </template>
 <script>
+import axios from 'axios';
 import AddressComponent from './AddressComponent.vue';
 
 
@@ -158,11 +165,115 @@ export default {
     props: ['modal'],
     name: 'OrderOnlineModal',
     data() {
-        return {
-    
+      return {
+        
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          fullAddress: '',
+          service: '',
+          division: "",
+          district: "",
+          upazila: "",
+          union: "",
+         
+
         };
     },
-    components: { AddressComponent }
+  components: { AddressComponent },
+
+
+
+  methods: {
+    
+    handleDivisionSelected(divisionName) {
+      this.division = divisionName
+    },
+    handleDistrictSelected(districtName) {
+      this.district = districtName
+    },
+    handleUpazilaSelected(upazilaName) {
+      this.upazila = upazilaName
+    },
+    handleUnionSelected(unionName) {
+      this.union = unionName
+    },
+
+
+
+
+    submitForm() {
+
+      const bookingDetails= {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        phone: this.phone,
+        fullAddress: this.fullAddress,
+        service: this.service,
+        division: this.division,
+        district: this.district,
+        upazila: this.upazila,
+        unionn: this.union,
+
+      }
+
+      console.log(bookingDetails)
+
+      
+
+      fetch('http://localhost:3000/api/order', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bookingDetails)
+      })
+        .then(response => {
+          if (!response.ok) {
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to Recieve Your Order,, Try Again later', life: 3000 });
+            throw new Error('Failed to insert product data');
+          }
+          return response.text();
+        })
+        .then(data => {
+        //   console.log('Product data inserted successfully:', data);
+          this.$toast.add({ severity: 'success', summary: 'Success', detail: 'We Have Revieved Your Order', life: 3000 });
+          this.resetFormData()
+          return new Promise(resolve => setTimeout(resolve, 1000)); 
+        })
+        .then(() => {
+
+          window.location.reload();
+        })
+        .catch(error => {
+          this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to Recieve Your Order', life: 3000 });
+          console.error('Error inserting Order data:', error);
+        });
+        
+       
+    },
+
+
+    resetFormData() {
+      // Reset all data properties to their initial values
+      this.firstName = '';
+      this.lastName = '';
+      this.email = '';
+      this.phone = '';
+      this.fullAddress = '';
+      this.service = '';
+      this.division = '';
+      this.district = '';
+      this.upazila = '';
+      this.union = '';
+    },
+
+
+  
+
+    }
 };
 
 </script>

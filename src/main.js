@@ -19,6 +19,8 @@ import Dropdown from 'primevue/dropdown'
 import RadioButton from 'primevue/radiobutton'
 import InputNumber from 'primevue/inputnumber'
 import Skeleton from 'primevue/skeleton'
+import Paginator from 'primevue/paginator'
+import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import "preline/preline";
 
 import Toast from 'primevue/toast';
@@ -27,6 +29,7 @@ import ToastService from 'primevue/toastservice';
 import 'primevue/resources/themes/lara-light-green/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
+import Editor from 'primevue/editor';
 
 import App from './App.vue'
 import router from './router'
@@ -57,4 +60,7 @@ app.component('RadioButton', RadioButton)
 app.component('InputNumber', InputNumber)
 app.component('Toast', Toast);
 app.component('Skeleton', Skeleton);
+app.component('Editor', Editor);
+app.component('Paginator', Paginator);
+app.component('DataViewLayoutOptions', DataViewLayoutOptions);
 app.mount('#app')

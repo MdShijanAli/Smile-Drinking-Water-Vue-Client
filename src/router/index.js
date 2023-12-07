@@ -13,6 +13,7 @@ import DashboardProducts from '../components/DashboardProducts.vue'
 import Settings from '../components/Settings.vue'
 import DashboardOrders from '../components/DashboardOrders.vue'
 import Jobs from '../components/DashboardJobs.vue'
+import DashboardApplications from '../components/DashboardApplications.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,6 +84,10 @@ const router = createRouter({
         {
           path: '/jobs',
           component: Jobs
+        },
+        {
+          path: '/applications',
+          component: DashboardApplications
         },
       ],
     },

@@ -419,7 +419,7 @@ const websiteInfoStore = useWebsiteInfoStore();
 
 
 </script>
-<style>
+<style scoped>
   #fileInput {
   position: absolute;
   width: 100%;
@@ -427,5 +427,7 @@ const websiteInfoStore = useWebsiteInfoStore();
   opacity: 0;
   cursor: pointer;
 }
+
+  @import "primeflex/primeflex.css";
 
 </style>

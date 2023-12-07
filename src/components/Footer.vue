@@ -1,5 +1,5 @@
 <template>
-  <div>
+        <div>
         <div class="bg-footerBG">
           <div class="max-w-7xl mx-auto px-6 py-10">
                <div class="grid md:grid-cols-4 sm:grid-cols-2 md:gap-10 gap-5">
@@ -56,7 +56,7 @@
         <div class=" bg-footerBottom">
           <div class="max-w-7xl px-6 mx-auto py-5 text-white">
             <p class="text-p text-gray-200 hover:text-white text-center">© Copyright <span id="currentYear"></span>
-              ROMANA GENERAL TRADING LLC. | All Rights Reserved | Powered by <a href="https://www.zealtechbd.com/" target="_blank"
+              Smile Drinking Water. | All Rights Reserved | Powered by <a href="https://www.zealtechbd.com/" target="_blank"
                 class="hover:text-secondary font-semibold">ZealtechBD.</a></p>
           </div>
         </div>
@@ -173,13 +173,26 @@ export default {
             path: `${this.websiteInfo[0]?.email}`
 
           },
-        ]
+        ],
+  
       }
     }
   },
 
-  mounted() {
-    console.log(this?.socials)
+  computed: {
+    facebookLink() {
+      return this.websiteInfo && this.websiteInfo[0]?.facebook;
+    },
+    twitterLink() {
+      return this.websiteInfo && this.websiteInfo[0]?.twitter;
+    },
+    linkedinLink() {
+      return this.websiteInfo && this.websiteInfo[0]?.linkedin;
+    },
+    emailLink() {
+      return this.websiteInfo && this.websiteInfo[0]?.email;
+    },
+    // ... other computed properties
   },
 
   setup() {
@@ -192,8 +205,8 @@ export default {
   watchEffect(() => {
     websiteInfo.value = websiteInfoStore.websiteInfos;
     console.log('websiteInfo:', websiteInfo.value[0]);
-    
   });
+
 
   return {
     websiteInfo,

@@ -111,7 +111,7 @@
   <form @submit.prevent="submitForm">
   <div class="p-4 overflow-y-auto">
   <div>
-  <input type="text" disabled :value="'Application For ' + selectedjob?.title"
+  <input  type="text" disabled :value="'Application For ' + selectedJobTitle"
   class="peer py-3 px-4 ps-11 block w-full bg-gray-200 text-center rounded-sm text-md cursor-not-allowed"
   >
   </div>
@@ -177,7 +177,12 @@
     </div>
 
  
- <AddressComponent />
+    <AddressComponent 
+            @division-selected="handleDivisionSelected" 
+            @district-selected="handleDistrictSelected" 
+            @upazila-selected="handleUpazilaSelected" 
+            @union-selected="handleUnionSelected"
+            />
 
 
 
@@ -201,14 +206,13 @@
 
 
     <div class="w-full my-5">
-      <h1 class="text-xl font-bold mt-5">Upload my Curriculum vitae</h1>
+      <h1 class="text-xl font-bold mt-5">Pest your Curriculum vitae drive link</h1>
       <p class="my-3">Cv is mandatory.</p>
       <label for="file-input" class="sr-only">Choose file</label>
-      <input required @change="handleFileChange" type="file" name="file-input" id="file-input" class="block w-full border bg-gray-100 border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
-      file:bg-gray-50 file:border-0
-      file:bg-gray-300 file:me-4
-      file:py-3 file:px-4
-     ">
+      <input v-model="cv" type="text" required
+          class="peer py-3 px-4 block w-full bg-gray-100 border-transparent rounded-sm text-sm focus:border-primary  focus:ring-primary focus:outline-primary  disabled:opacity-50 disabled:pointer-events-none "
+          placeholder="Enter Your CV Drive Link">
+      
     </div>
 
     <div class="flex my-5">
@@ -263,8 +267,20 @@ components: { BannerSlot, AddressComponent },
   data() {
     return {
       selectedJob: {},
+      selectedJobTitle: "",
       jobViewDialog: false,
       jobs: [],
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      fullAddress: '',
+      division: "",
+      district: "",
+      upazila: "",
+      union: "",
+      cv: "",
+      selectJob: ""
 
 
   
@@ -285,8 +301,99 @@ components: { BannerSlot, AddressComponent },
   },
 
   methods: {
+
+    handleDivisionSelected(divisionName) {
+      this.division = divisionName
+    },
+    handleDistrictSelected(districtName) {
+      this.district = districtName
+    },
+    handleUpazilaSelected(upazilaName) {
+      this.upazila = upazilaName
+    },
+    handleUnionSelected(unionName) {
+      this.union = unionName
+    },
+
+
+
+    submitForm() {
+
+      console.log(this.selectedJobTitle)
+
+const applicatiantDetails= {
+  firstName: this.firstName,
+  lastName: this.lastName,
+  email: this.email,
+  phone: this.phone,
+  fullAddress: this.fullAddress,
+  division: this.division,
+  district: this.district,
+  upazila: this.upazila,
+  unionn: this.union,
+  cv: this.cv,
+  jobTitle: this.selectedJobTitle
+
+}
+
+console.log(applicatiantDetails)
+
+
+
+fetch('http://localhost:3000/api/application', {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(applicatiantDetails)
+})
+  .then(response => {
+    if (!response.ok) {
+      this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to Recieve Your Applicaiton,, Try Again later', life: 3000 });
+      throw new Error('Failed to insert Application data');
+    }
+    return response.text();
+  })
+  .then(data => {
+  //   console.log('Product data inserted successfully:', data);
+    this.$toast.add({ severity: 'success', summary: 'Success', detail: 'We Have Revieved Your Application', life: 3000 });
+    this.resetFormData()
+    return new Promise(resolve => setTimeout(resolve, 1000)); 
+  })
+  .then(() => {
+
+    window.location.reload();
+  })
+  .catch(error => {
+    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to Recieve Your Applicaiton', life: 3000 });
+    console.error('Error inserting Application data:', error);
+  });
+  
+ 
+},
+
+
+resetFormData() {
+// Reset all data properties to their initial values
+this.firstName = '';
+this.lastName = '';
+this.email = '';
+this.phone = '';
+this.fullAddress = '';
+this.service = '';
+this.division = '';
+this.district = '';
+this.upazila = '';
+this.union = '';
+},
+
+
+
+
+
        jobView(prod) {
-            this.selectedjob = prod
+         this.selectedjob = prod
+         this.selectedJobTitle=prod.title
       
             this.jobViewDialog = true;
             console.log(prod)

@@ -79,7 +79,7 @@
         </div>
 
         <div class=" mt-10">
-          <div v-for="job in jobs" :key="job.id" @click="jobView(job)"  class="shad md:px-10 px-5 py-3 my-3 md:py-5 rounded-md sm:flex grid items-center justify-between hover:bg-sky-100">
+          <div v-for="job in jobs" :key="job.id"  class="shad md:px-10 px-5 py-3 my-3 md:py-5 rounded-md sm:flex grid items-center justify-between hover:bg-sky-100">
             <div class="flex gap-5 items-center">
               <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">
                   ID: </span>{{job.id}} </p>
@@ -92,7 +92,7 @@
                   Date: </span> {{job.applyLastDate.slice(0,10)}}</p>
             </div>
             <div class="text-center z-[999]">
-              <Button icon="pi pi-eye" outlined rounded class="mr-2 border border-primary text-primary hover:bg-primary transition duration-500 ease-in-out hover:text-white"  />
+              <Button @click="jobView(job)" icon="pi pi-eye" outlined rounded class="mr-2 border border-primary text-primary hover:bg-primary transition duration-500 ease-in-out hover:text-white"  />
             </div>
             
           </div>
@@ -101,7 +101,7 @@
             
             <div class="text-right z-[999]">
               <Button icon="pi pi-pencil" outlined rounded class="mr-2 border border-[#1EBC87] hover:bg-[#1EBC87] hover:text-white transition duration-500 ease-in-out text-[#1EBC87]" @click="editProduct(selectedjob)" />
-              <Button icon="pi pi-trash" outlined rounded class="border text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition duration-500 ease-out"  @click="confirmDeleteProduct(slotProps.data)"/>
+              <Button icon="pi pi-trash" outlined rounded class="border text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition duration-500 ease-out"  @click="confirmDeleteProduct(selectedjob)"/>
             </div>
             <div class="md:px-10 px-5 py-3 md:py-5 rounded-md sm:flex grid items-center justify-between ">
             <div class="">
@@ -189,8 +189,22 @@
         </form>   
         
         </Dialog>
+
+
+        <Dialog v-model:visible="deleteProductDialog" :style="{width: '500px'}" header="Confirm" :modal="true">
+            <Toast />
+            <div class="flex items-center gap-5">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                <span v-if="product">Are you sure you want to delete <b>{{selectedjob.title}}</b>?</span>
+            </div>
+            <div class="flex gap-5 mt-10 justify-end">
+                <Button label="No" icon="pi pi-times" text class="bg-black text-white px-5 py-2.5" @click="deleteProductDialog = false"/>
+                <Button label="Yes" icon="pi pi-check" text class="bg-red-600 text-white px-5 py-2.5" @click="deleteProduct(selectedjob.id)" />
+            </div>
+        </Dialog>
         
         </div>
+
 
 
  
@@ -222,6 +236,8 @@ export default {
       applyLastDate: "",
       jobType: "",
       jobs: [],
+      product: {},
+      deleteProductDialog: false,
    
     }
   },
@@ -232,6 +248,46 @@ export default {
   },
 
   methods: {
+    confirmDeleteProduct(product) {
+            this.product = product;
+            this.deleteProductDialog = true;
+            console.log(product)
+    },
+    deleteProduct(id) {
+            console.log(id);
+    // Call the delete function with the product ID
+            this.deleteProductFunction(id);
+            
+            
+        },
+     // Delete Single Products
+     async deleteProductFunction(jobID) {
+            try {
+            const response = await fetch(`http://localhost:3000/api/job/${jobID}`, {
+                method: 'DELETE',
+            });
+
+                if (response.ok) {
+                    this.$toast.add({ severity: 'success', summary: 'Successful', detail: `Job with ID ${jobID} deleted successfully`, life: 3000 });
+                    await  new Promise(resolve => setTimeout(resolve, 1000)); 
+                    this.product = {};
+                    
+            } else {
+                console.error('Failed to delete Job');
+            }
+            } catch (error) {
+            console.error('Error deleting Job:', error);
+            }
+            finally {
+                // Call fetchProducts regardless of success or error
+              this.deleteProductDialog = false;
+              this.productEditDialog = false;
+              this.jobDialog = false;
+              
+                this.fetchJobs();
+            }
+
+        },
     editProduct(prod) {
             this.product = prod
       
@@ -239,7 +295,7 @@ export default {
             console.log(prod)
         },
 
-    jobView(prod) {
+      jobView(prod) {
             this.selectedjob = prod
       
             this.jobViewDialog = true;
@@ -275,7 +331,6 @@ export default {
         location: job.location,
         jobType: job.jobType,
         vacancy: job.vacancy,
-        location: job.location,
         applyLastDate: job.applyLastDate,
       }
 
@@ -323,9 +378,7 @@ export default {
         location: this.jobLocation,
         jobType: this.jobType,
         vacancy: this.jobVacancy,
-        location: this.jobLocation,
         applyLastDate: this.applyLastDate,
-   
       }
 
       console.log(jobDetails)
@@ -350,6 +403,7 @@ export default {
           return  new Promise(resolve => setTimeout(resolve, 1000)); 
         })
         .then(() => {
+          this.resetFormData()
           this.fetchJobs()
           this.jobDialog = false;
           
@@ -360,7 +414,22 @@ export default {
       });
 
       
-    }
+    },
+
+
+    
+
+resetFormData() {
+// Reset all data properties to their initial values
+this.title = '';
+this.description = '';
+this.location = '';
+this.jobType = '';
+this.vacancy = '';
+this.applyLastDate = '';
+
+},
+
   }
 }
 </script>

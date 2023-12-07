@@ -1,3 +1,4 @@
+
 import './style.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -5,12 +6,12 @@ import PrimeVue from 'primevue/config';
 import Carousel from 'primevue/carousel'
 import Tag from 'primevue/tag'
 import Button from 'primevue/button'
-import TieredMenu from 'primevue/tieredMenu'
-import DataView from 'primevue/dataView'
+import TieredMenu from 'primevue/tieredmenu'
+import DataView from 'primevue/dataview'
 import Rating from 'primevue/rating'
 import Toolbar from 'primevue/toolbar'
 import FileUpload from 'primevue/fileupload'
-import DataTable from 'primevue/dataTable'
+import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Column from 'primevue/column'
@@ -21,6 +22,11 @@ import InputNumber from 'primevue/inputnumber'
 import Skeleton from 'primevue/skeleton'
 import Paginator from 'primevue/paginator'
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
+import MultiSelect from 'primevue/multiselect'
+import TriStateCheckbox from 'primevue/tristatecheckbox'
+import Sidebar from 'primevue/sidebar'
+import Avatar from 'primevue/avatar'
+
 import "preline/preline";
 
 import Toast from 'primevue/toast';
@@ -63,4 +69,8 @@ app.component('Skeleton', Skeleton);
 app.component('Editor', Editor);
 app.component('Paginator', Paginator);
 app.component('DataViewLayoutOptions', DataViewLayoutOptions);
+app.component('MultiSelect', MultiSelect);
+app.component('TriStateCheckbox', TriStateCheckbox);
+app.component('Sidebar', Sidebar);
+app.component('Avatar', Avatar);
 app.mount('#app')

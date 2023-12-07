@@ -1,48 +1,87 @@
 <template>
   <div>
-    <div class="p-20" >
+    <div class="p-10" >
   
+        <h1 class="text-h1 font-semibold text-center py-10">All Orders</h1>
 
-       <DataView :value="orders" 
-       :paginator="true" :rows="9" :filters="filters"
+       
+        <DataTable :editingRows="editingRows" editMode="row" filterDisplay="row" class="border" @row-edit-save="onRowEditSave" v-model:expandedRows="expandedRows" :value="orders" dataKey="id"
+                @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" tableStyle="min-width: 60rem"
+                :loading="loading"
+              :paginator="true" :rows="10"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Orders"
-       >
-       
-        <template #list="slotProps">
-          <div class="grid grid-cols-3 gap-5">
-            <div v-for="order in slotProps.items" :key="order.id" class="border rounded-sm p-10 hover:bg-sky-100">
-                 <div class="flex items-center justify-between">
-                   <p><span class='font-semibold'>Date:</span> {{ order.date.slice(0,10) }}</p>
-                   <p> <span class='font-semibold'>Time:</span> {{ order.date.slice(11,19) }}</p>
-                 </div>
-
-                 <div class="my-5">
-                  <h1 class="text-lg bg-green-400 text-center">Order Item: <span class='font-semibold'>{{ order.service }}</span></h1>
-                  <h1 class="text-md my-3">ID: <span class='font-semibold'>{{ order.id }}</span></h1>
-                  <h1 class="text-md my-3">First Name: <span class='font-semibold'>{{ order.firstName }}</span></h1>
-                  <h1 class="text-md my-3">Last Name: <span class='font-semibold'>{{ order.lastName }}</span></h1>
-                  <h1 class="text-md my-3">Email: <span class='font-semibold'>{{ order.email }}</span></h1>
-                  <h1 class="text-md my-3">Phone: <span class='font-semibold'>{{ order.phone }}</span></h1>
-                  <h1 class="text-md my-3">Division: <span class='font-semibold'>{{ order.division }}</span></h1>
-                  <h1 class="text-md my-3">District: <span class='font-semibold'>{{ order.district }}</span></h1>
-                  <h1 class="text-md my-3">Upazila: <span class='font-semibold'>{{ order.upazila }}</span></h1>
-                  <h1 class="text-md my-3">Union: <span class='font-semibold'>{{ order.unionn }}</span></h1>
-                  <h1 class="text-md my-3">Full Address: <span class='font-semibold'>{{ order.fullAddress }}</span></h1>
-                 </div>
-            </div>
-            <div></div>
-            <div></div>
-       </div>
-            </template>
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
+         
+            <Column expander style="width: 5rem" />
+            <Column field="firstName" header="ID">
+              <template #body="{ data }">
+                    {{ data.id }}
+                </template>
+            </Column>
+            <Column field="firstName" header="Name">
+              <template #body="{ data }">
+                    {{ data.firstName }}
+                </template>
+            </Column>
+           
    
-        </DataView>
+            <Column field="Order" header="Order Item">
+              <template #body="{ data }">
+                    {{ data.service }}
+                </template>
+            </Column>
+            <Column field="Order" header="Order Date">
+              <template #body="{ data }">
+                <span>{{ data.date.slice(0,10) }}</span> <br>
+                <Tag class="bg-gray-200 text-primary" :value="convertToBrowserTimezone(data.date).slice(11,23)" />
+                </template>
+            </Column>
+         
 
-       
+            <Column field="inventoryStatus" header="Status" style="width: 20%">
+                <template #editor="{ data, field }">
+                    <Dropdown v-model="data[field]" :options="statuses" class="border" optionLabel="label" optionValue="value" placeholder="Select a Status">
+                        <template #option="slotProps">
+                            <Tag :value="slotProps.value" :severity="getStatusLabel(slotProps.value)" />
+                        </template>
+                    </Dropdown>
+                </template>
+                <template #body="slotProps">
+                    <Tag :value="slotProps.data.value" />
+                </template>
+            </Column>
+
+
+            <template #expansion="slotProps">
+                <div class="p-5 border">
+                    <h5 class="bg-gray-200 p-3">Orders Details: <span class="font-semibold">{{ slotProps.data.service }}</span></h5>
+  
+                              <h1 class="text-md my-3">ID: <span class='font-semibold'>{{ slotProps.data.id }}</span></h1>
+                              <h1 class="text-md my-3">First Name: <span class='font-semibold'>{{ slotProps.data.firstName }}</span></h1>
+                              <h1 class="text-md my-3">Last Name: <span class='font-semibold'>{{ slotProps.data.lastName }}</span></h1>
+                              <h1 class="text-md my-3">Email: <span class='font-semibold'>{{ slotProps.data.email }}</span></h1>
+                              <h1 class="text-md my-3">Phone: <span class='font-semibold'>{{ slotProps.data.phone }}</span></h1>
+                              <h1 class="text-md my-3">Division: <span class='font-semibold'>{{ slotProps.data.division }}</span></h1>
+                              <h1 class="text-md my-3">District: <span class='font-semibold'>{{ slotProps.data.district }}</span></h1>
+                              <h1 class="text-md my-3">Upazila: <span class='font-semibold'>{{ slotProps.data.upazila }}</span></h1>
+                              <h1 class="text-md my-3">Union: <span class='font-semibold'>{{ slotProps.data.unionn }}</span></h1>
+                              <h1 class="text-md my-3">Full Address: <span class='font-semibold'>{{ slotProps.data.fullAddress }}</span></h1>
+                              <h1 class="text-md my-3">Order Date: <span class='font-semibold'>{{ slotProps.data.date.slice(0,10) }} ({{ convertToBrowserTimezone(slotProps.data.date).slice(11,23) }})</span></h1>
+               
+            
+                  
+                </div>
+            </template>
+        </DataTable>
+        <Toast />
+
+
+
     </div>
   </div>
 </template>
 <script>
+import { ProductService } from '../stores/productService';
 import axios from 'axios';
 export default {
   name: "DashboardOrders",
@@ -51,14 +90,23 @@ export default {
     return {
       products: null,
       layout: 'grid',
-      orders: []
+      orders: [],
+      expandedRows: [],
+      editingRows: [],
+      statuses: [
+                { label: 'In Stock', value: 'Pending' },
+                { label: 'Low Stock', value: 'Cancel' },
+                { label: 'Out of Stock', value: 'Complete' }
+      ],
     }
   },
 
 
 
   mounted() {
-  axios.get('http://localhost:3000/api/orders')
+    ProductService.getProductsWithOrdersSmall().then((data) => (this.products = data));
+
+    axios.get('http://localhost:3000/api/orders')
     .then(response => {
       
       this.orders = response.data;
@@ -68,12 +116,79 @@ export default {
       // Handle errors
       console.error('Error fetching orders:', error);
     });
-  }
+    },
+  methods: {
 
+    convertToBrowserTimezone(utcTimestamp) {
+  const utcDate = new Date(utcTimestamp);
 
+  // Convert to the browser's timezone
+  const browserTimezoneDate = new Intl.DateTimeFormat(undefined, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short',
+  }).format(utcDate);
 
-}
+  return browserTimezoneDate;
+},
+
+    getStatusLabel(status) {
+            switch (status) {
+                case 'INSTOCK':
+                    return 'success';
+
+                case 'LOWSTOCK':
+                    return 'warning';
+
+                case 'OUTOFSTOCK':
+                    return 'danger';
+
+                default:
+                    return null;
+            }
+        },
+       
+        getSeverity(product) {
+            switch (product.inventoryStatus) {
+                case 'INSTOCK':
+                    return 'success';
+
+                case 'LOWSTOCK':
+                    return 'warning';
+
+                case 'OUTOFSTOCK':
+                    return 'danger';
+
+                default:
+                    return null;
+            }
+        },
+        getOrderSeverity(order) {
+            switch (order.status) {
+                case 'DELIVERED':
+                    return 'success';
+
+                case 'CANCELLED':
+                    return 'danger';
+
+                case 'PENDING':
+                    return 'warning';
+
+                case 'RETURNED':
+                    return 'info';
+
+                default:
+                    return null;
+            }
+        }
+    }
+};
+
 </script>
-<style>
-  
+<style scoped>
+  @import "primeflex/primeflex.css";
 </style>

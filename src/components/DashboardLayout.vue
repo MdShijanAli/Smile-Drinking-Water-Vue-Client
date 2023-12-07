@@ -32,6 +32,9 @@
                       <li><RouterLink to="/jobs"
                           class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">Jobs</RouterLink>
                       </li>
+                      <li><RouterLink to="/applications"
+                          class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">Applicaitons</RouterLink>
+                      </li>
                       <li><RouterLink to="/settings"
                           class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-primary hover:text-white block px-3">Settings</RouterLink>
                       </li>
@@ -50,6 +53,12 @@
             <router-view></router-view>
           </div>
     </div>
+  
+  
+  
+  
+  
+  
   </div>
 </template>
 <script >

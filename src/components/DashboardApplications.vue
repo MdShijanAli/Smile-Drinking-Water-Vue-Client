@@ -178,7 +178,7 @@ export default {
 
     
     fetchApplications() {
-      axios.get('http://localhost:3000/api/applications')
+      axios.get('https://server.zealtechweb.com/api/applications')
     .then(response => {
       // Access the data property of the response
       this.applicaitons = response.data;

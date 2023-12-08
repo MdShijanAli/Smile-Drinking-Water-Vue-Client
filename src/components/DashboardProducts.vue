@@ -283,7 +283,7 @@ export default {
           console.log(uploadData);
 
            // Post data to your server
-            fetch('http://localhost:3000/api/products', {
+            fetch('https://server.zealtechweb.com/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -325,7 +325,7 @@ export default {
 
 async updateProductFunction(productId) {
   try {
-    const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+    const response = await fetch(`https://server.zealtechweb.com/api/products/${productId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -374,7 +374,7 @@ async updateProductFunction(productId) {
         // Delete Single Products
         async deleteProductFunction(productId) {
             try {
-            const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+            const response = await fetch(`https://server.zealtechweb.com/api/products/${productId}`, {
                 method: 'DELETE',
             });
 
@@ -425,7 +425,7 @@ async updateProductFunction(productId) {
   // Iterate over the selected products and delete each one
                 products.forEach(async (product) => {
                     try {
-                    const response = await fetch(`http://localhost:3000/api/products/${product.id}`, {
+                    const response = await fetch(`https://server.zealtechweb.com/api/products/${product.id}`, {
                         method: 'DELETE',
                     });
 

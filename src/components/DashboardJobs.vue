@@ -263,7 +263,7 @@ export default {
      // Delete Single Products
      async deleteProductFunction(jobID) {
             try {
-            const response = await fetch(`http://localhost:3000/api/job/${jobID}`, {
+            const response = await fetch(`https://server.zealtechweb.com/api/job/${jobID}`, {
                 method: 'DELETE',
             });
 
@@ -304,7 +304,7 @@ export default {
 
 
     fetchJobs() {
-      axios.get('http://localhost:3000/api/jobs')
+      axios.get('https://server.zealtechweb.com/api/jobs')
     .then(response => {
       // Access the data property of the response
       this.jobs = response.data;
@@ -336,7 +336,7 @@ export default {
 
       console.log(updateJob)
 
-      fetch(`http://localhost:3000/api/job/${job.id}`, {
+      fetch(`https://server.zealtechweb.com/api/job/${job.id}`, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json'
@@ -383,7 +383,7 @@ export default {
 
       console.log(jobDetails)
 
-      fetch('http://localhost:3000/api/job', {
+      fetch('https://server.zealtechweb.com/api/job', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'

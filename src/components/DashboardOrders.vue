@@ -106,7 +106,7 @@ export default {
   mounted() {
     ProductService.getProductsWithOrdersSmall().then((data) => (this.products = data));
 
-    axios.get('http://localhost:3000/api/orders')
+    axios.get('https://server.zealtechweb.com/api/orders')
     .then(response => {
       
       this.orders = response.data;

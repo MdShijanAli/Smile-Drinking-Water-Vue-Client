@@ -13,7 +13,7 @@ export const useProductStore = defineStore('product', {
         this.isLoading = true;
 
         // Replace 'your_api_endpoint' with the actual API endpoint to fetch products
-        const response = await fetch('http://localhost:3000/products');
+        const response = await fetch('https://server.zealtechweb.com/products');
         const data = await response.json();
 
         // Assuming the API response contains an array of products

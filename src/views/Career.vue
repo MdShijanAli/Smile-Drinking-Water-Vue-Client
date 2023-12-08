@@ -288,7 +288,7 @@ components: { BannerSlot, AddressComponent },
   },
 
   mounted() {
-    axios.get('http://localhost:3000/api/jobs')
+    axios.get('https://server.zealtechweb.com/api/jobs')
     .then(response => {
       // Access the data property of the response
       this.jobs = response.data;
@@ -340,7 +340,7 @@ console.log(applicatiantDetails)
 
 
 
-fetch('http://localhost:3000/api/application', {
+fetch('https://server.zealtechweb.com/api/application', {
   method: "POST",
   headers: {
     'Content-Type': 'application/json'

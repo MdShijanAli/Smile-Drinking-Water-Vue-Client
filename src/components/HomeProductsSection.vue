@@ -9,7 +9,7 @@
 
     <div class="pt-0 md:pt-10">
       <div class="relative glide-08 mt-10 overflow-hidden">
-        <div class="card">
+        <div class="">
           <!--   -->
           <Carousel :value="productStore.products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="2000">  
             <template #item="{ data }">

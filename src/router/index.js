@@ -14,6 +14,9 @@ import Settings from '../components/Settings.vue'
 import DashboardOrders from '../components/DashboardOrders.vue'
 import Jobs from '../components/DashboardJobs.vue'
 import DashboardApplications from '../components/DashboardApplications.vue'
+import TermsAndCondition from '../views/TermsAndCondition.vue'
+import PrivacyPolicy from '../views/PrivacyPolicy.vue'
+import ReturnRefund from '../views/ReturnRefund.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +49,21 @@ const router = createRouter({
           path: '/career',
           name: 'Career',
           component: Career
+        },
+        {
+          path: '/terms-condition',
+          name: 'TermsAndCondition',
+          component: TermsAndCondition
+        },
+        {
+          path: '/privacy-policy',
+          name: 'PrivacyPolicy',
+          component: PrivacyPolicy
+        },
+        {
+          path: '/return-refund',
+          name: 'ReturnRefund',
+          component: ReturnRefund
         },
         {
           path: '/blog/:title',

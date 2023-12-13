@@ -32,7 +32,7 @@
     </div>
 
 
-    <div class="drawer justify-end lg:hidden flex">
+    <div class="drawer justify-end lg:hidden flex z-50">
       <input id="my-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
         <!-- Page content here -->
@@ -154,7 +154,7 @@ export default {
 
   watchEffect(() => {
     websiteInfo.value = websiteInfoStore.websiteInfos;
-    console.log('websiteInfo:', websiteInfo.value[0]);
+    // console.log('websiteInfo:', websiteInfo.value[0]);
   });
 
   return {

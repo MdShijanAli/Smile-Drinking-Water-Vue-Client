@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="p-10">
-           <div class="w-[700px] mx-auto border p-10">
+           <div class="w-[700px] mx-auto border p-10 bg-white">
               <form @submit.prevent="websiteDetasilsInfo">
                 <div class="">
                     <div class="avatar p-5 w-full flex justify-center">
@@ -363,7 +363,7 @@ const websiteDetasilsInfo = async () => {
   console.log(websiteDetails);
 
   try {
-    const response = await fetch('http://localhost:3000/api/update/1', {
+    const response = await fetch('https://server.zealtechweb.com/api/update/1', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

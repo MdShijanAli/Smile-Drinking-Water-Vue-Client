@@ -5,32 +5,32 @@
         <h1 class="text-h1 font-semibold text-center py-10">All Orders</h1>
 
        
-        <DataTable :editingRows="editingRows" editMode="row" filterDisplay="row" class="border" @row-edit-save="onRowEditSave" v-model:expandedRows="expandedRows" :value="orders" dataKey="id"
+        <DataTable :editingRows="editingRows" editMode="row" filterDisplay="row" class="" @row-edit-save="onRowEditSave" v-model:expandedRows="expandedRows" :value="orders" dataKey="id"
                 @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" tableStyle="min-width: 60rem"
                 :loading="loading"
-              :paginator="true" :rows="10"
+              :paginator="orders.length>10 ? true : false" :rows="10"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
          
-            <Column expander style="width: 5rem" />
-            <Column field="firstName" header="ID">
-              <template #body="{ data }">
-                    {{ data.id }}
+            <Column expander style="width: 5rem" class="border" />
+            <Column field="firstName" header="SL" class="border">
+              <template #body="{ index }">
+                    {{ index + 1 }}
                 </template>
             </Column>
-            <Column field="firstName" header="Name">
+            <Column field="firstName" header="Name" class="border">
               <template #body="{ data }">
                     {{ data.firstName }}
                 </template>
             </Column>
            
    
-            <Column field="Order" header="Order Item">
+            <Column field="Order" header="Order Item" class="border">
               <template #body="{ data }">
                     {{ data.service }}
                 </template>
-            </Column>
-            <Column field="Order" header="Order Date">
+            </Column> 
+            <Column field="Order" header="Order Date" class="border">
               <template #body="{ data }">
                 <span>{{ data.date.slice(0,10) }}</span> <br>
                 <Tag class="bg-gray-200 text-primary" :value="convertToBrowserTimezone(data.date).slice(11,23)" />
@@ -38,13 +38,12 @@
             </Column>
          
 
-            <Column field="inventoryStatus" header="Status" style="width: 20%">
-                <template #editor="{ data, field }">
-                    <Dropdown v-model="data[field]" :options="statuses" class="border" optionLabel="label" optionValue="value" placeholder="Select a Status">
-                        <template #option="slotProps">
-                            <Tag :value="slotProps.value" :severity="getStatusLabel(slotProps.value)" />
-                        </template>
-                    </Dropdown>
+            <Column header="Status" style="width: 20%" class="border">
+                <template #editor="{ data }">
+                  <div class="card flex justify-content-center">
+                      <Toast />
+                      <SplitButton label="Save" icon="pi pi-plus" @click="save" :model="items" />
+                  </div>
                 </template>
                 <template #body="slotProps">
                     <Tag :value="slotProps.data.value" />
@@ -106,7 +105,7 @@ export default {
   mounted() {
     ProductService.getProductsWithOrdersSmall().then((data) => (this.products = data));
 
-    axios.get('http://localhost:3000/api/orders')
+    axios.get('https://server.zealtechweb.com/api/orders')
     .then(response => {
       
       this.orders = response.data;

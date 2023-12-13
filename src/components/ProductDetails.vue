@@ -1,15 +1,14 @@
 <template>
  <Bannerslot :bannerTitle="currentProduct.title"/>
 
- <div v-if="isLoading"> <!-- Show loading component when isLoading is true -->
-      <!-- Your loading component goes here -->
-      Loading...
+    <div v-if="loading"> <!-- Show loading component when isLoading is true -->
+      <loading-component></loading-component>
     </div>
 
 <div v-else>
   <div>
   <div class="max-w-7xl mx-auto px-6 py-10">
-      <div class="grid grid-cols-2 gap-10">
+      <div class="grid md:grid-cols-2 gap-10">
            <div class="border p-10">
             <img class="mx-auto" :src="currentProduct.img" alt="">
            </div>
@@ -61,64 +60,72 @@
 
 
 <script>
-import { ref, onMounted,watch  } from 'vue';
+import { ref, onMounted  } from 'vue';
 import { useProductStore } from '../stores/productStore';
 import Bannerslot from './BannerSlot.vue';
-import { useRoute } from 'vue-router';
-
+import LoadingComponent from './LoadingComponent.vue';
 
 export default {
   name: "ProductDetails",
-  components: { Bannerslot },
+  components: { Bannerslot,LoadingComponent },
+
+  data() {
+    return {
+      loading: false,
+      currentProduct: {}
+  }},
+
+  watch: {
+    $route(to, from) {
+      
+      if (to.params.title !== from.params.title) {
+        this.updateCurrentProduct();
+      }
+    },
+  }, 
+
+  mounted() {
+    console.log(this.currentProduct)
+    this.updateCurrentProduct();
+  },
 
 
-    setup() {
-      const productStore = useProductStore();
-      const currentProduct = ref({});
-      const route = ref(useRoute());
-      const isLoading = ref(true);
 
 
-      onMounted(async () => {
-      // Fetch products when the component is mounted
-      await productStore.fetchProducts();
-      console.log(productStore.products);
-      updateCurrentProduct();
-      console.log(currentProduct);
-
-      // Set isLoading to false once products are fetched
-      isLoading.value = false;
-    });
-
-        watch(
-              () => [route.value?.params.title], // Use optional chaining to handle undefined
-              ([newTitle, oldTitle]) => {
-                // Check if the title in the route parameters has changed
-                if (newTitle !== oldTitle) {
-                  updateCurrentProduct();
-                }
-              }
-    );
-
-    const updateCurrentProduct = () => {
-  // Ensure route is defined before accessing its properties
-  if (route.value) {
-    const title = route.value.params.title; // Use optional chaining to handle undefined
+  methods: {
+    async updateCurrentProduct() {
+  this.loading = true;
+  const title = this.$route.params.title;
+  try {
+    await this.productStore.fetchProducts();
     console.log(title);
+    console.log(this.productStore.products);
 
-    // Assuming the title is a unique identifier for the blog
-    currentProduct.value = productStore.products.find(product => product.title.replace(/ /g, '-') === title);
+    // Assuming the title is a unique identifier for the product
+    this.currentProduct = this.productStore.products.find(product => product.title.replace(/ /g, '-') === title);
+  } catch (error) {
+    console.error('Error fetching product details:', error);
+  } finally {
+    this.loading = false;
   }
-};
-
-        return {
-          productStore,currentProduct,route,isLoading
-        };
-  }
-
 }
 
+  },
 
+
+  setup() {
+        const productStore = useProductStore();
+        onMounted(async () => {
+          await productStore.fetchProducts();
+          console.log(productStore.products);
+        });
+        return {
+            productStore
+        };
+    },
+ 
+
+}
 </script>
 
 <style>

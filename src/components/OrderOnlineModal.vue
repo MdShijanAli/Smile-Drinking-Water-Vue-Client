@@ -223,7 +223,7 @@ export default {
 
       
 
-      fetch('http://localhost:3000/api/order', {
+      fetch('https://server.zealtechweb.com/api/order', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'

@@ -1,34 +1,38 @@
 
 <template>
   <div class="">
-      <DataTable class="border p-10" :filters="filters" :value="applicaitons" dataKey="id" filterDisplay="row" :loading="loading"
-              :paginator="true" :rows="10"
+      <DataTable class="p-10" :filters="filters" :value="applicaitons" dataKey="id" filterDisplay="row" :loading="loading"
+              :paginator="applicaitons.length>10 ? true : false" :rows="10"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
               <template #header>
                     <div class="flex flex-wrap items-center justify-between">
                         <h4 class="m-0">All Applications</h4>
-                        <span class="p-input-icon-left flex gap-5">
+                        <!-- <span class="p-input-icon-left flex gap-5">
                             <i class="pi pi-search mr-5" />
-                               <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
-                         </span>
+                               <InputText v-model="filters['global'].value"  placeholder="Search..." />
+                         </span> -->
+                         <span class="p-input-icon-left">
+                            <i class="pi pi-search" />
+                            <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
+                        </span>
                       </div>
                 </template>
           <template #empty> No customers found. </template>
           <template #loading> Loading customers data. Please wait. </template>
-          <Column field="id" header="ID" style="min-width: 5rem">
-                <template #body="{ data }">
-                    {{ data.id }}
+          <Column field="id" header="SL" style="min-width: 5rem" class="border">
+                <template #body="{ index  }">
+                    {{ index +1 }}
                 </template>
            
             </Column>
-          <Column field="name" header="Name" style="min-width: 12rem">
+          <Column field="name" header="Name" style="min-width: 12rem" class="border">
                 <template #body="{ data }">
                     {{ data.firstName }}
                 </template>
            
             </Column>
-          <Column header="Email" filterField="country.name" style="min-width: 12rem">
+          <Column header="Email" filterField="country.name" style="min-width: 12rem" class="border">
               <template #body="{ data }">
                   <div class="flex align-items-center gap-2">
                       <span>{{ data.email }}</span>
@@ -36,7 +40,7 @@
               </template>
          
           </Column>
-          <Column header="Phone" filterField="representative" :showFilterMenu="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 14rem">
+          <Column header="Phone"  style="min-width: 14rem" class="border">
               <template #body="{ data }">
                   <div class="flex align-items-center gap-2">
                       <span>{{ data.phone }}</span>
@@ -44,13 +48,13 @@
               </template>
          
           </Column>
-          <Column field="status" header="Job Title" :showFilterMenu="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 12rem">
+          <Column header="Job Title"  class="border" style="min-width: 12rem">
               <template #body="{ data }">
                   <Tag class="bg-gray-200 text-primary" :value="data.jobTitle" />
               </template>
           
           </Column>
-          <Column field="status" header="Applicaiton Date" :showFilterMenu="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 12rem">
+          <Column  header="Applicaiton Date"  class="border" style="min-width: 12rem">
               <template #body="{ data }">
                  
                     <span>{{ data.applyTime.slice(0,10) }}</span> <br>
@@ -59,7 +63,7 @@
               </template>
        
           </Column>
-          <Column field="verified" header="View" dataType="boolean" style="min-width: 6rem">
+          <Column field="verified" header="View" class="border" style="min-width: 6rem">
               <template #body="{ data }">
                   <button @click="jobView(data)">
                     <i class="pi pi-eye p-2 rounded-full hover:bg-primary hover:text-white border border-primary" ></i>
@@ -121,14 +125,15 @@ export default {
           selectedjob: {},
           jobViewDialog: false,
           customers: null,
-      filters: {
-           global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-          },
+          filters: {},
           
           statuses: ['unqualified', 'qualified', 'new', 'negotiation', 'renewal', 'proposal'],
           loading: true
       };
   },
+  created() {
+        this.initFilters();
+    },
   mounted() {
       CustomerService.getCustomersMedium().then((data) => {
           this.customers = this.getCustomers(data);
@@ -178,7 +183,7 @@ export default {
 
     
     fetchApplications() {
-      axios.get('http://localhost:3000/api/applications')
+      axios.get('https://server.zealtechweb.com/api/applications')
     .then(response => {
       // Access the data property of the response
       this.applicaitons = response.data;
@@ -206,6 +211,24 @@ export default {
           });
     },
 
+
+    findIndexById(id) {
+            let index = -1;
+            for (let i = 0; i < this.applicaitons.length; i++) {
+                if (this.applicaitons[i].id === id) {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+    },
+
+      initFilters() {
+            this.filters = {
+                'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+            }
+        },
 
 
 

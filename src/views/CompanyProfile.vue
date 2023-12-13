@@ -4,35 +4,17 @@
   <div>
       <div class="max-w-7xl mx-auto px-6 py-20 sm:grid sm:grid-cols-2 items-center flex flex-col-reverse gap-20">
         <div class="">
-          <h1 class="lg:text-h1 sm:text-2xl text-xl font-semibold">{{ icons.title }}</h1>
-              <div class="mt-10">
-                <div v-for="icon in icons.data" :key="icon.id" class="grid grid-flow-col justify-start gap-5 items-center my-5">
-                  <p class="bg-primary hover:bg-secondary md:w-12 w-8 h-8 md:h-12 flex items-center justify-center rounded-full">
-                   <span v-html="icon.icon"></span>
-                  </p>
-                  <p class="text-h6 md:text-h5 break-words">{{ icon.title }}</p>
-                </div>
-       
-            <!--     <div class="grid grid-flow-col justify-start gap-5 items-center my-5">
-                  <p class="bg-primary hover:bg-secondary md:w-12 w-8 h-8 md:h-12 flex items-center justify-center rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="md:w-6 w-4 h-4 md:h-6 fill-white" viewBox="0 0 448 512">
-                      <path
-                        d="M333.2 322.8l0 0-133.9-146 0 0L146 118.6c7.8-5.1 37-22.6 78-22.6s70.2 17.4 78 22.6L245.7 180l85.6 93.4 27.4-29.8c16.3-17.7 25.3-40.9 25.3-65V149.1c0-19-5.6-37.5-16.1-53.3L327.8 35.6C312.9 13.4 287.9 0 261.2 0h-76c-25.8 0-50.1 12.5-65.1 33.5L81.9 87C70.3 103.2 64 122.8 64 142.8V164c0 23.2 8.4 45.6 23.6 63.1l56 64.2 0 0 83.3 95.6 0 0 91.8 105.3c10 11.5 26.8 14.3 40 6.8l54.5-31.1c17.8-10.2 21.6-34.3 7.7-49.4l-87.7-95.7zM205.2 410.6l-83.3-95.6L27.1 418.5c-13.9 15.1-10.1 39.2 7.7 49.4l55.1 31.5c13 7.4 29.3 4.9 39.4-6.1l75.9-82.6z" />
-                    </svg>
-                  </p>
-                  <p class="text-h6 md:text-h5 break-words">Favorite water brand in UAE</p>
-                </div>
         
-                <div class="grid grid-flow-col justify-start gap-5 items-center my-5">
-                  <p class="bg-primary hover:bg-secondary md:w-12 w-8 h-8 md:h-12 flex items-center justify-center rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="md:w-6 w-4 h-4 md:h-6 fill-white" viewBox="0 0 448 512">
-                      <path
-                        d="M320 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM125.7 175.5c9.9-9.9 23.4-15.5 37.5-15.5c1.9 0 3.8 .1 5.6 .3L137.6 254c-9.3 28 1.7 58.8 26.8 74.5l86.2 53.9-25.4 88.8c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l28.7-100.4c5.9-20.6-2.6-42.6-20.7-53.9L238 299l30.9-82.4 5.1 12.3C289 264.7 323.9 288 362.7 288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H362.7c-12.9 0-24.6-7.8-29.5-19.7l-6.3-15c-14.6-35.1-44.1-61.9-80.5-73.1l-48.7-15c-11.1-3.4-22.7-5.2-34.4-5.2c-31 0-60.8 12.3-82.7 34.3L57.4 153.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l23.1-23.1zM91.2 352H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h69.6c19 0 36.2-11.2 43.9-28.5L157 361.6l-9.5-6c-17.5-10.9-30.5-26.8-37.9-44.9L91.2 352z" />
-                    </svg>
-                  </p>
-                  <p class="text-h6 md:text-h5 break-words">Widely engages & promotes physical activity, sports, fitness, health & wellness</p>
-                </div> -->
-              </div>
+        <h1 class="text-3xl font-semibold uppercase">largest BOTTLED WATER COMPANY IN bangladesh</h1>
+
+       <div class="mt-10">
+        <p class="text-justify">
+          Welcome to Smile Drinking Water, where purity meets refreshment. Our commitment is to deliver premium quality water, sourced from pristine locations and meticulously purified to  ensuring each sip brings a smile on your face. With a focus on excellence and customer satisfaction, Smile Drinking Water is your trusted companion for staying hydrated. Join us in the journey to stay refreshed with a smile.
+        </p>
+        <p class="text-justify mt-5">
+          Smile Drinking Water is not just a brand; it's a commitment to delivering high-quality, purified water that not only quenches your thirst but also brings a smile to your face. Our team is dedicated to ensuring that every drop of water meets the highest standards of purity and taste.
+        </p>
+       </div>
       
 
         </div>

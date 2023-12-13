@@ -2,7 +2,7 @@
 <template>
     <div>
         <div class="card border">
-            <Toolbar class="mb-4 border m-5">
+            <Toolbar class="mb-4 border">
                 <template #start>
                     <Button label="New" icon="pi pi-plus" severity="success" class="mr-2 bg-green-500 px-4 py-2 text-white hover:bg-green-700 transition duration-500 ease-in-out" @click="openNew" />
                     <Button label="Delete" icon="pi pi-trash" :class="selectedProducts?.length? 'bg-red-600': 'bg-red-400 cursor-not-allowed'" class="text-white px-4 py-2" severity="danger" @click="confirmDeleteSelected" />
@@ -15,7 +15,7 @@
             </Toolbar>
 
             <DataTable ref="dt" :value="productStore.products" v-model:selection="selectedProducts" dataKey="id" 
-                :paginator="true" :rows="10" :filters="filters"
+                :paginator="productStore.products.length > 10? true : false" :rows="10" :filters="filters"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                 <template #header>
@@ -28,25 +28,32 @@
 					</div>
                 </template>
 
-                <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
-                <Column field="code" header="Code" sortable style="min-width:12rem"></Column>
-                <Column field="title" header="Name" sortable style="min-width:16rem">
+                <Column selectionMode="multiple" style="width: 3rem" :exportable="false" class="border"></Column>
+                <Column header="SL" style="min-width:5rem" class="border">
+                    <template #body="{ index }">
+                    {{ index + 1 }}
+                   </template>
+                </Column>
+                <Column field="code" header="Code" sortable style="min-width:12rem" class="border">
                 
                 </Column>
-                <Column header="Image">
+                <Column field="title" header="Name" sortable style="min-width:16rem" class="border">
+                
+                </Column>
+                <Column header="Image" class="border">
                     <template #body="slotProps">
                         <img :src="slotProps.data.img" :alt="slotProps.data.image" class="shadow-2 border-round" style="width: 64px" />
                     </template>
                 </Column>
          
                
-                <Column field="rating" header="Reviews" sortable style="min-width:12rem">
+                <Column field="rating" header="Reviews" sortable style="min-width:12rem" class="border">
                     <template #body="slotProps">
                         <Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false" />
                     </template>
                 </Column>
          
-                <Column :exportable="false" style="min-width:8rem">
+                <Column :exportable="false" style="min-width:8rem" class="border">
                     <template #body="slotProps">
                         <Button icon="pi pi-pencil" outlined rounded class="mr-2 border border-[#1EBC87] text-[#1EBC87]" @click="editProduct(slotProps.data)" />
                         <Button icon="pi pi-trash" outlined rounded class="border text-red-600 border-red-600" @click="confirmDeleteProduct(slotProps.data)" />
@@ -283,7 +290,7 @@ export default {
           console.log(uploadData);
 
            // Post data to your server
-            fetch('http://localhost:3000/api/products', {
+            fetch('https://server.zealtechweb.com/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -325,7 +332,7 @@ export default {
 
 async updateProductFunction(productId) {
   try {
-    const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+    const response = await fetch(`https://server.zealtechweb.com/api/products/${productId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -374,7 +381,7 @@ async updateProductFunction(productId) {
         // Delete Single Products
         async deleteProductFunction(productId) {
             try {
-            const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+            const response = await fetch(`https://server.zealtechweb.com/api/products/${productId}`, {
                 method: 'DELETE',
             });
 
@@ -425,7 +432,7 @@ async updateProductFunction(productId) {
   // Iterate over the selected products and delete each one
                 products.forEach(async (product) => {
                     try {
-                    const response = await fetch(`http://localhost:3000/api/products/${product.id}`, {
+                    const response = await fetch(`https://server.zealtechweb.com/api/products/${product.id}`, {
                         method: 'DELETE',
                     });
 

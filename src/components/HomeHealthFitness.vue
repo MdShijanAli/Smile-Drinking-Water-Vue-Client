@@ -154,7 +154,22 @@ export default {
 
 
 <style scoped>
+@keyframes upDown {
 
+0%,
+100% {
+  transform: translateY(0);
+}
+
+50% {
+  transform: translateY(50px);
+}
+}
+
+
+.animate-up-down {
+animation: upDown 5s ease-in infinite alternate-reverse;
+} 
 
 .hero-div-1 {
   position: absolute;
@@ -183,6 +198,11 @@ export default {
   z-index: -2;
   padding-right: 20px;
   transition: left 2s, opacity 1s;
+}
+
+.img-dev2:hover .hero-div-2{
+  opacity: 1;
+  left: -90%;
 }
 
 .hero-div-3 {
@@ -238,17 +258,17 @@ export default {
   position: absolute;
   right: 0%;
   top: 25px;
-  width: 240px;
+  width: 260px;
   border: 1px solid #003376;
   border-radius: 5px;
   opacity: 0;
   z-index: -2;
-  padding-left: 25px;
+  padding-left: 30px;
   transition: right 2s, opacity 1s;
 }
 .img-dev6:hover .hero-div-6{
   opacity: 1;
-  right: -220%;
+  right: -230%;
 }
 .hero-div-7 {
   position: absolute;
@@ -454,6 +474,88 @@ export default {
 
 .animate-round8 {
   animation: round8 20s ease-in infinite;
+}
+
+
+
+
+
+/* Solar Css */
+
+.solar-system{
+  animation: rotation 20s linear infinite;
+}
+
+
+
+
+.planet {
+  position: absolute;
+  top: -10%;
+  right: -15%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+.planet1 {
+  position: absolute;
+  top: 8%;
+  left: 27%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+.planet2 {
+  position: absolute;
+  top: 42%;
+  left: 15%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+.planet3 {
+  position: absolute;
+  top: 75%;
+  right: -49%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+.planet4 {
+  position: absolute;
+  bottom: -9%;
+  right: -15%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+.planet5 {
+  position: absolute;
+  bottom: 5%;
+  left: 30%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+.planet6 {
+  position: absolute;
+  top: 8%;
+  right: -53%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+.planet7 {
+  position: absolute;
+  top: 43%;
+  right: -63%;
+  transform: translate(-50%,0);
+  /* animation: rotation 10s linear infinite; */
+}
+
+
+
+
+@keyframes rotation {
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
 }
 
 </style>

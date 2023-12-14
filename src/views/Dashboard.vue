@@ -27,7 +27,7 @@
           <div class="p-10 border rounded-xl bg-white shadow-xl flex flex-col-reverse sm:flex-row sm:justify-between text-center sm:text-left gap-5">
             <div>
               <h2 class="md:text-dashboardHeader text-xl font-medium">Total Applications</h2>
-              <h2 class="md:text-dashboardHeader text-xl font-semibold py-3">{{ applicaitons.length }}</h2>
+              <h2 class="md:text-dashboardHeader text-xl font-semibold py-3">{{ applications.length }}</h2>
               <p><span class="text-teal-500">2 New Orders</span> since last visit</p>
             </div>
 
@@ -53,14 +53,13 @@
 <script>
 import {onMounted} from 'vue'
 import { useProductStore } from '../stores/productStore';
-import axios from 'axios';
 export default {
   name: "Dashboard",
 
   data() {
     return {
       orders: [],
-      applicaitons: [],
+      applications: [],
       jobs: []
     }
   },
@@ -68,43 +67,78 @@ export default {
 
   mounted() {
     console.log(this.applicaitons)
-    axios.get('https://server.zealtechweb.com/api/orders')
-    .then(response => {
-      
-      this.orders = response.data;
-      // console.log(this.orders);
-    })
-    .catch(error => {
-      // Handle errors
-      console.error('Error fetching orders:', error);
-    });
 
-    axios.get('https://server.zealtechweb.com/api/applications')
-    .then(response => {
-      // Access the data property of the response
-      this.applicaitons = response.data;
-      console.log(this.applicaitons);
-    })
-    .catch(error => {
-      // Handle errors
-      console.error('Error fetching Applicaitons:', error);
-    });
-
-
-    axios.get('https://server.zealtechweb.com/api/jobs')
-    .then(response => {
-      // Access the data property of the response
-      this.jobs = response.data;
-      console.log(this.jobs);
-    })
-    .catch(error => {
-      // Handle errors
-      console.error('Error fetching orders:', error);
-    });
+this.fetchOrders()
+this.fetchApplications()
+this.fetchJobs()
+  
 
   },
 
   methods: {
+    async fetchJobs() {
+  try {
+    const response = await fetch('https://server.zealtechweb.com/api/jobs');
+
+    // Check if the response status is ok (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`Error fetching jobs: ${response.statusText}`);
+    }
+
+    // Parse the JSON data in the response
+    const data = await response.json();
+
+    // Access the data property of the response
+    this.jobs = data;
+    console.log('jobs', this.jobs);
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching jobs:', error.message);
+  }
+},
+
+async fetchApplications() {
+  try {
+    const response = await fetch('https://server.zealtechweb.com/api/applications');
+
+    // Check if the response status is ok (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`Error fetching applications: ${response.statusText}`);
+    }
+
+    // Parse the JSON data in the response
+    const data = await response.json();
+
+    // Access the data property of the response
+    this.applications = data;
+    console.log('applications', this.applications);
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching applications:', error.message);
+  }
+},
+
+
+async fetchOrders() {
+  try {
+    const response = await fetch('https://server.zealtechweb.com/api/orders');
+
+    // Check if the response status is ok (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`Error fetching orders: ${response.statusText}`);
+    }
+
+    // Parse the JSON data in the response
+    const data = await response.json();
+
+    // Access the data property of the response
+    this.orders = data;
+    // console.log(this.orders);
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching orders:', error.message);
+  }
+}
 
 },
   

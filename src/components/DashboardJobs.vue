@@ -164,7 +164,7 @@
           </div>
         </Dialog>
 
-            <Dialog v-model:visible="productEditDialog" header="Product Details" :modal="true" class="p-fluid w-1/2">
+            <Dialog v-model:visible="productEditDialog" header="Job Details" :modal="true" class="p-fluid w-1/2">
             <Toast />
             
         <form action="">

@@ -44,7 +44,7 @@
 
         <div class=" mt-10">
           <div v-for="(job,i) in jobs" :key="job.id" @click="jobView(job)"  class="shad md:px-10 px-5 py-3 my-3 md:py-5 rounded-md sm:flex grid items-center justify-between hover:bg-sky-100">
-            <div class="flex gap-5 items-center">
+            <div class="flex flex-wrap gap-5 items-center">
               <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide font-semibold">{{i+1}}. </p>
               <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Post
                   Name: </span>{{job.title}} </p>

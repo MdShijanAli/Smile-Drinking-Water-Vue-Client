@@ -43,6 +43,13 @@
                                            
                                         </RouterLink>
                                     </li>
+                                    <li class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-blue-950 hover:text-white block px-3">
+                                        <RouterLink to="/jobs" v-ripple class="flex gap-3 items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                            <i class="pi pi-file mr-2"></i>
+                                            <span class="font-medium">Jobs</span>
+                                           
+                                        </RouterLink>
+                                    </li>
                        
                                     <li class="focus:outline-none focus:text-secondary-600  xl:text-base md:text-lg text-base py-1 my-1 md:py-1 md:my-2 cursor-pointer hover:bg-blue-950 hover:text-white block px-3">
                                         <RouterLink to="/settings" v-ripple class="flex gap-3 items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">

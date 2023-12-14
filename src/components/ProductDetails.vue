@@ -1,5 +1,5 @@
 <template>
- <Bannerslot :bannerTitle="currentProduct.title"/>
+ <Bannerslot :bannerTitle="currentProduct?.title"/>
 
     <div v-if="loading"> <!-- Show loading component when isLoading is true -->
       <loading-component></loading-component>
@@ -10,10 +10,10 @@
   <div class="max-w-7xl mx-auto px-6 py-10">
       <div class="grid md:grid-cols-2 gap-10">
            <div class="border p-10">
-            <img class="mx-auto" :src="currentProduct.img" alt="">
+            <img class="mx-auto" :src="currentProduct?.img" alt="">
            </div>
            <div>
-               <h1 class="text-h1 font-semibold">{{ currentProduct.title }}</h1>
+               <h1 class="text-h1 font-semibold">{{ currentProduct?.title }}</h1>
                <p class="text-justify mt-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum, error! Placeat ut molestiae animi repellat optio fugit adipisci cumque odit atque vitae, ex non vero culpa, pariatur libero sequi dolorum? Voluptatum optio id nesciunt repudiandae maxime cupiditate, distinctio quas commodi ipsam libero accusantium labore omnis, natus voluptate corrupti temporibus nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores saepe accusantium nam voluptatem? Ex veniam similique voluptatum inventore commodi ratione. Temporibus, doloribus. Eveniet voluptatem fugiat, modi perspiciatis numquam ut quidem?</p>
            
               <div class="mt-10">
@@ -41,7 +41,7 @@
                       </div>
                       <div class="flex items-center justify-between mt-5">
                         <h3 class="font-bold">{{ product.title }}</h3>
-                        <RouterLink :to="{ name: 'product-details', params: { title: product.title.replace(/ /g, '-') } }">
+                        <RouterLink :to="{ name: 'product-details', params: { id: product.id } }">
                           <button
                           class="px-2 py-1 border-2 font-semibold hover:bg-primary hover:text-white transition duration-500 ease-in-out hover:border-primary border-black rounded-full">Get
                           Now</button>
@@ -78,14 +78,14 @@ export default {
   watch: {
     $route(to, from) {
       
-      if (to.params.title !== from.params.title) {
+      if (to.params.id !== from.params.id) {
         this.updateCurrentProduct();
       }
     },
   }, 
 
   mounted() {
-    console.log(this.currentProduct)
+    console.log('current-products',this.currentProduct)
     this.updateCurrentProduct();
   },
 
@@ -95,14 +95,14 @@ export default {
   methods: {
     async updateCurrentProduct() {
   this.loading = true;
-  const title = this.$route.params.title;
+  const id = this.$route.params.id;
   try {
     await this.productStore.fetchProducts();
-    console.log(title);
+    console.log(id);
     console.log(this.productStore.products);
 
     // Assuming the title is a unique identifier for the product
-    this.currentProduct = this.productStore.products.find(product => product.title.replace(/ /g, '-') === title);
+    this.currentProduct = this.productStore.products.find(product => product.id == id);
   } catch (error) {
     console.error('Error fetching product details:', error);
   } finally {

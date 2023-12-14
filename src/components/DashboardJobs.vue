@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <div class="max-w-7xl mx-auto px-6 md:py-10 pb-10 z-0">
+      <div class="p-10">
         <div class="mt-10 md:mt-0">
           <h1
             class="lg:text-h1 md:text-4xl sm:text-3xl text-2xl text-center font-semibold">
@@ -78,24 +78,61 @@
         </Dialog>
         </div>
 
-        <div class=" mt-10">
-          <div v-for="job in jobs" :key="job.id"  class="shad md:px-10 px-5 py-3 my-3 md:py-5 rounded-md sm:flex grid items-center justify-between hover:bg-sky-100">
-            <div class="flex gap-5 items-center">
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">
-                  ID: </span>{{job.id}} </p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Post
-                  Name: </span>{{job.title}} </p>
+        <div class="mt-10">
          
 
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Job Post Date: </span> {{job.jobPostTime.slice(0,10)}}</p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Last Apply
-                  Date: </span> {{job.applyLastDate.slice(0,10)}}</p>
-            </div>
-            <div class="text-center z-[999]">
-              <Button @click="jobView(job)" icon="pi pi-eye" outlined rounded class="mr-2 border border-primary text-primary hover:bg-primary transition duration-500 ease-in-out hover:text-white"  />
-            </div>
-            
-          </div>
+
+          <DataTable ref="dt" :value="jobs" v-model:selection="selectedjob" dataKey="id" 
+                :paginator="jobs.length > 10? true : false" :rows="10" :filters="filters"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
+                <template #header>
+                    <div class="flex flex-wrap items-center justify-between">
+                        <h4 class="m-0">Manage Products</h4>
+						<span class="p-input-icon-left flex gap-5">
+                            <i class="pi pi-search mr-5" />
+                            <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
+                        </span>
+					</div>
+                </template>
+
+                
+                <Column header="SL" style="min-width:2rem" class="border">
+                    <template #body="{ index }">
+                    {{ index + 1 }}
+                   </template>
+                </Column>
+                <Column field="title" header="Job Title" sortable style="min-width:16rem" class="border"></Column>
+                <Column field="vacancy" header="Vacancy" sortable style="min-width:5rem" class="border"></Column>
+                <Column field="jobPostTime" header="Job Post Date" sortable style="min-width:10rem" class="border">
+                     <template #body="slotProps">
+                      <div>
+                        <h1><span class='font-semibold'>{{ slotProps.data.jobPostTime.slice(0,10) }}</span></h1>
+                      </div>
+                     </template>
+                </Column>
+                <Column field="applyLastDate" header="Apply Last Date" sortable style="min-width:10rem" class="border">
+                     <template #body="slotProps">
+                      <div>
+                        <h1><span class='font-semibold'>{{ slotProps.data.applyLastDate.slice(0,10) }}</span></h1>
+                      </div>
+                     </template>
+                </Column>
+                <Column header="View"  style="min-width:5rem" class="border">
+                     <template #body="slotProps">
+                      <div>
+                        <Button @click="jobView(slotProps.data)" icon="pi pi-eye" outlined rounded class="mr-2 border border-primary text-primary hover:bg-primary transition duration-500 ease-in-out hover:text-white"  />
+                      </div>
+                     </template>
+                </Column>
+        
+      
+            </DataTable>
+
+
+
+
+
 
           <Dialog v-model:visible="jobViewDialog" modal header="Job Details" :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
             
@@ -205,6 +242,8 @@
         
         </div>
 
+     
+
 
 
  
@@ -218,6 +257,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { FilterMatchMode } from 'primevue/api';
 
 export default {
   name: "Jobs",
@@ -238,9 +278,12 @@ export default {
       jobs: [],
       product: {},
       deleteProductDialog: false,
-   
+      filters: {},
     }
   },
+  created() {
+        this.initFilters();
+    },
 
  
   mounted() {
@@ -248,6 +291,7 @@ export default {
   },
 
   methods: {
+   
     confirmDeleteProduct(product) {
             this.product = product;
             this.deleteProductDialog = true;
@@ -428,7 +472,14 @@ this.jobType = '';
 this.vacancy = '';
 this.applyLastDate = '';
 
-},
+    },
+
+
+    initFilters() {
+            this.filters = {
+                'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+            }
+        },
 
   }
 }

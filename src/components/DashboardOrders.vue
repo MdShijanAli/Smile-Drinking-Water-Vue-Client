@@ -5,8 +5,8 @@
         <h1 class="text-h1 font-semibold text-center py-10">All Orders</h1>
 
        
-        <DataTable :editingRows="editingRows" editMode="row" filterDisplay="row" class="" @row-edit-save="onRowEditSave" v-model:expandedRows="expandedRows" :value="orders" dataKey="id"
-                @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" tableStyle="min-width: 60rem"
+        <DataTable :editingRows="editingRows" editMode="row"  class="" @row-edit-save="onRowEditSave" v-model:expandedRows="expandedRows" :value="orders" dataKey="id"
+                  tableStyle="min-width: 60rem"
                 :loading="loading"
               :paginator="orders.length>10 ? true : false" :rows="10"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"

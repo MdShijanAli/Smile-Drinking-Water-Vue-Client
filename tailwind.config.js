@@ -24,6 +24,7 @@ export default {
         // my custom font sizes 
         'h1': '36px',
         'h2': '25px',
+        'dashboardHeader': '22px',
         'paragraph': '15px',
          'h5': '16px',
         'h6': '14px',

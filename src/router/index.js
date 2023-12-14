@@ -72,7 +72,7 @@ const router = createRouter({
           props: true
         },
         {
-          path: '/product/:title',
+          path: '/product/:id',
           name: 'product-details',
           component: ProductDetails,
           props: true

@@ -20,7 +20,7 @@
                       </div>
                       <div class="flex items-center justify-between mt-5">
                         <h3 class="font-bold">{{ data.title }}</h3>
-                        <RouterLink :to="{ name: 'product-details', params: { title: data.title.replace(/ /g, '-') } }">
+                        <RouterLink :to="{ name: 'product-details', params: { id: data.id } }">
                           <button
                           class="px-2 py-1 border-2 font-semibold hover:bg-primary hover:text-white transition duration-500 ease-in-out hover:border-primary border-black rounded-full">Get
                           Now</button>

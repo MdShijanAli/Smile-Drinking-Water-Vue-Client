@@ -53,7 +53,7 @@
                     </template>
                 </Column>
          
-                <Column :exportable="false" style="min-width:8rem" class="border">
+                <Column header="Action" style="min-width:8rem" class="border">
                     <template #body="slotProps">
                         <Button icon="pi pi-pencil" outlined rounded class="mr-2 border border-[#1EBC87] text-[#1EBC87]" @click="editProduct(slotProps.data)" />
                         <Button icon="pi pi-trash" outlined rounded class="border text-red-600 border-red-600" @click="confirmDeleteProduct(slotProps.data)" />

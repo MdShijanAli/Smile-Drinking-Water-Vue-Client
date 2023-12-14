@@ -1,77 +1,59 @@
 
 <template>
-  <div class="">
-      <DataTable class="p-10" :filters="filters" :value="applicaitons" dataKey="id" filterDisplay="row" :loading="loading"
-              :paginator="applicaitons.length>10 ? true : false" :rows="10"
+  <div class="p-10">
+  
+
+      <DataTable ref="dt" :value="applicaitons" v-model:selection="selectedjob" dataKey="id" 
+                :paginator="applicaitons.length > 10? true : false" :rows="10" :filters="filters"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
-              <template #header>
+                <template #header>
                     <div class="flex flex-wrap items-center justify-between">
                         <h4 class="m-0">All Applications</h4>
-                        <!-- <span class="p-input-icon-left flex gap-5">
+						<span class="p-input-icon-left flex gap-5">
                             <i class="pi pi-search mr-5" />
-                               <InputText v-model="filters['global'].value"  placeholder="Search..." />
-                         </span> -->
-                         <span class="p-input-icon-left">
-                            <i class="pi pi-search" />
                             <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
                         </span>
-                      </div>
+					</div>
                 </template>
-          <template #empty> No customers found. </template>
-          <template #loading> Loading customers data. Please wait. </template>
-          <Column field="id" header="SL" style="min-width: 5rem" class="border">
-                <template #body="{ index  }">
-                    {{ index +1 }}
-                </template>
-           
-            </Column>
-          <Column field="name" header="Name" style="min-width: 12rem" class="border">
-                <template #body="{ data }">
-                    {{ data.firstName }}
-                </template>
-           
-            </Column>
-          <Column header="Email" filterField="country.name" style="min-width: 12rem" class="border">
-              <template #body="{ data }">
-                  <div class="flex align-items-center gap-2">
-                      <span>{{ data.email }}</span>
-                  </div>
-              </template>
-         
-          </Column>
-          <Column header="Phone"  style="min-width: 14rem" class="border">
-              <template #body="{ data }">
-                  <div class="flex align-items-center gap-2">
-                      <span>{{ data.phone }}</span>
-                  </div>
-              </template>
-         
-          </Column>
-          <Column header="Job Title"  class="border" style="min-width: 12rem">
-              <template #body="{ data }">
+
+                <Column header="SL" style="min-width:5rem" class="border">
+                    <template #body="{ index }">
+                    {{ index + 1 }}
+                   </template>
+                </Column>
+               
+                <Column field="firstName" header="Name" sortable style="min-width:16rem" class="border">
+                  <template #body="{ data }">
+                    {{ data.firstName + " " + data.lastName }}
+                  </template>
+                </Column>
+                <Column field="email" sortable header="Email" class="border"></Column>
+                <Column field="phone" sortable header="Phone" class="border"></Column>
+                <Column field="jobTitle" header="Job Title" sortable class="border">
+                  <template #body="{ data }">
                   <Tag class="bg-gray-200 text-primary" :value="data.jobTitle" />
               </template>
-          
-          </Column>
-          <Column  header="Applicaiton Date"  class="border" style="min-width: 12rem">
-              <template #body="{ data }">
+              </Column>
+                <Column field="applyTime" header="Application Data" sortable class="border">
+                  <template #body="{ data }">
                  
-                    <span>{{ data.applyTime.slice(0,10) }}</span> <br>
-                    <Tag class="bg-gray-200 text-primary" :value="convertToBrowserTimezone(data.applyTime).slice(11,23)"  />
-             
-              </template>
-       
-          </Column>
-          <Column field="verified" header="View" class="border" style="min-width: 6rem">
-              <template #body="{ data }">
+                 <span>{{ data.applyTime.slice(0,10) }}</span> <br>
+                 <Tag class="bg-gray-200 text-primary" :value="convertToBrowserTimezone(data.applyTime).slice(11,23)"  />
+          
+           </template>
+              </Column>
+                <Column header="View" class="border">
+                  <template #body="{ data }">
                   <button @click="jobView(data)">
                     <i class="pi pi-eye p-2 rounded-full hover:bg-primary hover:text-white border border-primary" ></i>
                   </button>
               </template>
-        
-          </Column>
-      </DataTable>
+              </Column>
+         
+               
+               
+            </DataTable>
 
 
          <Dialog v-model:visible="jobViewDialog" modal header="Applicaiton Details" :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">

@@ -1,176 +1,233 @@
-<template>
-  <div>
-    <div class="xl:p-20 p-10">
-      <div class="grid xl:grid-cols-3 md:grid-cols-2 gap-5">
-          <div class="p-10 border rounded-xl bg-white shadow-xl flex flex-col-reverse sm:flex-row sm:justify-between text-center sm:text-left gap-5">
-            <div>
-              <h2 class="md:text-dashboardHeader text-xl font-medium">Total Orders</h2>
-              <h2 class="md:text-dashboardHeader text-xl font-semibold py-3">{{ orders.length }}</h2>
-              <p><span class="text-teal-500">2 New Orders</span> since last visit</p>
-            </div>
+<script setup>
+import { onMounted, reactive, ref, watch } from 'vue';
+import ProductService from '../service/ProductService';
+import { useLayout } from '../layout/composables/layout';
+import axios from 'axios';
 
-            <p>
-              <i class="pi pi-shopping-cart text-xl bg-[#D0E1FD] p-3 text-[#3B82F6] rounded-lg"></i>
-            </p>
-          </div>
-          <div class="p-10 border rounded-xl bg-white shadow-xl flex flex-col-reverse sm:flex-row sm:justify-between text-center sm:text-left gap-5">
-            <div>
-              <h2 class="md:text-dashboardHeader text-xl font-medium">Total Products</h2>
-              <h2 class="md:text-dashboardHeader text-xl font-semibold py-3">{{ productStore.products.length }}</h2>
-              <p><span class="text-teal-500">0 New Products</span> since last upload</p>
-            </div>
+const { isDarkTheme } = useLayout();
 
-            <p>
-              <i class="pi pi-shopping-bag text-xl bg-[#D0E1FD] p-3 text-[#3B82F6] rounded-lg"></i>
-            </p>
-          </div>
-          <div class="p-10 border rounded-xl bg-white shadow-xl flex flex-col-reverse sm:flex-row sm:justify-between text-center sm:text-left gap-5">
-            <div>
-              <h2 class="md:text-dashboardHeader text-xl font-medium">Total Applications</h2>
-              <h2 class="md:text-dashboardHeader text-xl font-semibold py-3">{{ applications.length }}</h2>
-              <p><span class="text-teal-500">2 New Orders</span> since last visit</p>
-            </div>
-
-            <p>
-              <i class="pi pi-file text-xl bg-[#D0E1FD] p-3 text-[#3B82F6] rounded-lg"></i>
-            </p>
-          </div>
-          <div class="p-10 border rounded-xl bg-white shadow-xl flex flex-col-reverse sm:flex-row sm:justify-between text-center sm:text-left gap-5">
-            <div>
-              <h2 class="md:text-dashboardHeader text-xl font-medium">Total Jobs</h2>
-              <h2 class="md:text-dashboardHeader text-xl font-semibold py-3">{{ jobs.length }}</h2>
-              <p><span class="text-teal-500">2 Jobs</span> are open now</p>
-            </div>
-
-            <p>
-              <i class="pi pi-file text-xl bg-[#D0E1FD] p-3 text-[#3B82F6] rounded-lg"></i>
-            </p>
-          </div>
-      </div>
-    </div>
-  </div>
-</template>
-<script>
-import {onMounted} from 'vue'
-import { useProductStore } from '../stores/productStore';
-export default {
-  name: "Dashboard",
-
-  data() {
-    return {
-      orders: [],
-      applications: [],
-      jobs: []
-    }
-  },
-
-
-  mounted() {
-    console.log(this.applicaitons)
-
-this.fetchOrders()
-this.fetchApplications()
-this.fetchJobs()
-  
-
-  },
-
-  methods: {
-    async fetchJobs() {
-  try {
-    const response = await fetch('https://server.zealtechweb.com/api/jobs');
-
-    // Check if the response status is ok (status code 200-299)
-    if (!response.ok) {
-      throw new Error(`Error fetching jobs: ${response.statusText}`);
-    }
-
-    // Parse the JSON data in the response
-    const data = await response.json();
-
-    // Access the data property of the response
-    this.jobs = data;
-    console.log('jobs', this.jobs);
-  } catch (error) {
-    // Handle errors
-    console.error('Error fetching jobs:', error.message);
-  }
-},
-
-async fetchApplications() {
-  try {
-    const response = await fetch('https://server.zealtechweb.com/api/applications');
-
-    // Check if the response status is ok (status code 200-299)
-    if (!response.ok) {
-      throw new Error(`Error fetching applications: ${response.statusText}`);
-    }
-
-    // Parse the JSON data in the response
-    const data = await response.json();
-
-    // Access the data property of the response
-    this.applications = data;
-    console.log('applications', this.applications);
-  } catch (error) {
-    // Handle errors
-    console.error('Error fetching applications:', error.message);
-  }
-},
-
-
-async fetchOrders() {
-  try {
-    const response = await fetch('https://server.zealtechweb.com/api/orders');
-
-    // Check if the response status is ok (status code 200-299)
-    if (!response.ok) {
-      throw new Error(`Error fetching orders: ${response.statusText}`);
-    }
-
-    // Parse the JSON data in the response
-    const data = await response.json();
-
-    // Access the data property of the response
-    this.orders = data;
-    // console.log(this.orders);
-  } catch (error) {
-    // Handle errors
-    console.error('Error fetching orders:', error.message);
-  }
-}
-
-},
-  
-
-
-
-  setup() {
-        const productStore = useProductStore();
-
-        const fetchProducts = async () => {
-      try {
-        await productStore.fetchProducts();
-        // console.log('Products fetched successfully.');
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
+const products = ref(null);
+const lineData = reactive({
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+        {
+            label: 'First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            backgroundColor: '#2f4860',
+            borderColor: '#2f4860',
+            tension: 0.4
+        },
+        {
+            label: 'Second Dataset',
+            data: [28, 48, 40, 19, 86, 27, 90],
+            fill: false,
+            backgroundColor: '#00bb7e',
+            borderColor: '#00bb7e',
+            tension: 0.4
+        }
+    ]
+});
+const items = ref([
+    { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+    { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+]);
+const lineOptions = ref(null);
+const productService = new ProductService();
+const applications = ref([]);
+const orders = ref([]);
+const productss = ref([]);
+const jobs = ref([]);
+const fetchApplications = () => {
+        axios.get('https://server.zealtechweb.com/api/applications')
+            .then(res => {
+                applications.value = res.data;
+             })
+            .catch(err=> {
+                console.log(err.message);
+             });
+    };
+const fetchOrders = () => {
+        axios.get('https://server.zealtechweb.com/api/orders')
+            .then(res => {
+                orders.value = res.data;
+             })
+            .catch(err=> {
+                console.log(err.message);
+             });
+    };
+const fetchProducts = () => {
+        axios.get('https://server.zealtechweb.com/products')
+            .then(res => {
+                productss.value = res.data;
+             })
+            .catch(err=> {
+                console.log(err.message);
+             });
+    };
+const fetchJobs = () => {
+        axios.get('https://server.zealtechweb.com/api/jobs')
+            .then(res => {
+                jobs.value = res.data;
+             })
+            .catch(err=> {
+                console.log(err.message);
+             });
     };
 
-    onMounted(() => {
-      // Fetch products when the component is mounted
-      fetchProducts();
-    });
 
-    return {
-      productStore,
-      fetchProducts, // Expose the fetchProducts method
+onMounted(() => {
+    productService.getProductsSmall().then((data) => (products.value = data));
+    fetchApplications();
+    fetchOrders();
+    fetchProducts();
+    fetchJobs();
+});
+
+const formatCurrency = (value) => {
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+};
+const applyLightTheme = () => {
+    lineOptions.value = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#495057'
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#495057'
+                },
+                grid: {
+                    color: '#ebedef'
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#495057'
+                },
+                grid: {
+                    color: '#ebedef'
+                }
+            }
+        }
     };
-  },
+};
 
-}
+const applyDarkTheme = () => {
+    lineOptions.value = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ebedef'
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#ebedef'
+                },
+                grid: {
+                    color: 'rgba(160, 167, 181, .3)'
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#ebedef'
+                },
+                grid: {
+                    color: 'rgba(160, 167, 181, .3)'
+                }
+            }
+        }
+    };
+};
 
+watch(
+    isDarkTheme,
+    (val) => {
+        if (val) {
+            applyDarkTheme();
+        } else {
+            applyLightTheme();
+        }
+    },
+    { immediate: true }
+);
 </script>
-<style>
-  
+
+<template>
+    <div class="grid">
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Orders</span>
+                        <div class="text-900 font-medium text-xl">{{ orders.length }}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">4 new </span>
+                <span class="text-500">since last orders</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Products</span>
+                        <div class="text-900 font-medium text-xl">{{ productss.length }}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-shopping-bag text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">4 </span>
+                <span class="text-500">since last Upload</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Applications</span>
+                        <div class="text-900 font-medium text-xl">{{ applications.length }}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-file text-cyan-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">2 </span>
+                <span class="text-500">newly Applications</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Jobs</span>
+                        <div class="text-900 font-medium text-xl">{{ jobs.length }}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-inbox text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-green-500 font-medium">0 </span>
+                <span class="text-500">new job post</span>
+            </div>
+        </div>
+
+     
+    </div>
+</template>
+
+
+<style scoped>
+@import 'primeflex/primeflex.scss';
 </style>

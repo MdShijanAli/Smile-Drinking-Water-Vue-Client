@@ -21,7 +21,7 @@
 </template>
 <script>
 import { mapState } from 'pinia';
-import BlogLayout from './BlogLayout.vue';
+import BlogLayout from './layouts/BlogLayout.vue';
 import { useBlogStore } from '../stores/blogStore';
 import Bannerslot from './BannerSlot.vue';
 

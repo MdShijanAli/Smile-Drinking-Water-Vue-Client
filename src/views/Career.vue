@@ -7,56 +7,38 @@
         <div class="mt-10 md:mt-0">
           <h1
             class="lg:text-h1 md:text-4xl sm:text-3xl text-2xl text-center font-semibold">
-            Open Positions!!</h1>
+            Current Open Positions!!</h1>
         </div>
 
-
-        
-
-        <!-- <div class="grid grid-cols-1 items-center sm:gap-8 gap-5 mt-10">
-
-
-      
-      <div v-for="job in jobs" :key="job.id" class="shad md:px-10 px-5 py-3 md:py-5 rounded-xl sm:flex grid items-center justify-between">
-            <div>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Post
-                  Name: </span>{{job.title}} </p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span
-                  class="font-semibold">Location: </span> {{job.location}}</p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Job
-                  Type: </span> {{job.jobType}}</p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span
-                  class="font-semibold">Vacancy: </span> {{job.vacancy}}</p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Last Apply
-                  Date: </span> {{job.applyLastDate}}</p>
-            </div>
-            <div class="text-center sm:mt-6 mt-3">
-              <button @click="selectJob(job.title)" onclick="career_apply_modal.showModal()"
-                class="sm:px-6 px-3 py-1 sm:py-2 sm:text-base text-sm font-semibold bg-primary hover:bg-secondary transitio duration-700 ease-in-out text-white rounded-full">Apply
-                Now</button>
-            </div>
-            
-          </div>
-          
-          
-
-        </div> -->
-
         <div class=" mt-10">
-          <div v-for="(job,i) in jobs" :key="job.id" @click="jobView(job)"  class="shad md:px-10 px-5 py-3 my-3 md:py-5 rounded-md sm:flex grid items-center justify-between hover:bg-sky-100">
-            <div class="flex flex-wrap gap-5 items-center">
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide font-semibold">{{i+1}}. </p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Post
-                  Name: </span>{{job.title}} </p>
-         
+          
 
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Job Post Date: </span> {{job.jobPostTime.slice(0,10)}}</p>
-              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Last Apply
-                  Date: </span> {{job.applyLastDate.slice(0,10)}}</p>
-            </div>
-      
+
+          <!-- <DataView ref="dt" :value="jobs" v-model:selection="selectedjob" dataKey="id" 
+                :paginator="jobs.length > 10? true : false" :rows="10" :filters="filters"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
+            <template #list="slotProps"> -->
+              <div class="grid md:grid-cols-2 gap-10">
+                <div v-for="job in jobs" :key="job.id"  class="shad md:px-10 px-5 py-3  md:py-10 rounded-md  hover:bg-secondary hover:text-white transition duraiton-500 ease-in-out text-center">
+               <p>Job</p>
+         
+              
+              <p class="my-5 text-lg lg:text-h2 sm:leading-6 tracking-wide font-semibold">{{job.title}} </p>
+         
+                <div>
+                            <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Job Post Date: </span> {{job.jobPostTime.slice(0,10)}}</p>
+                              <p class="my-3 text-sm lg:text-base sm:leading-6 tracking-wide"><span class="font-semibold">Last Apply
+                                  Date: </span> {{job.applyLastDate.slice(0,10)}}</p>
+                </div>
+       
+                <button @click="jobView(job)" class="sm:px-10 px-8 py-2 sm:py-3 bg-primary hover:bg-white hover:text-primary text-white rounded-md mt-5">See Details</button>
             
           </div>
+              </div>
+        <!--     </template>
+          </DataView> -->
+
 
           <Dialog v-model:visible="jobViewDialog" modal header="Job Details" :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
             <div class="md:px-10 px-5 py-3 md:py-5 rounded-md sm:flex grid items-center justify-between ">

@@ -39,13 +39,17 @@
                       <div class="single-image-box">
                          <img class="mx-auto w-full h-full pt-4" :src="product.img" alt="">
                       </div>
-                      <div class="flex items-center justify-between mt-5">
-                        <h3 class="font-bold">{{ product.title }}</h3>
-                        <RouterLink :to="{ name: 'product-details', params: { id: product.id } }">
+                      <div class="grid sm:grid-cols-3 items-center text-center sm:text-left justify-center mt-5">
+                        <div class="sm:col-span-2">
+                          <p class="font-bold ">{{ product.title }}</p>
+                        </div>
+                        <div class="col-span-1 mt-5">
+                          <RouterLink :to="{ name: 'product-details', params: { id: product.id } }">
                           <button
                           class="px-2 py-1 border-2 font-semibold hover:bg-primary hover:text-white transition duration-500 ease-in-out hover:border-primary border-black rounded-full">Get
                           Now</button>
                         </RouterLink>
+                        </div>
                       </div>
             
                 </div>

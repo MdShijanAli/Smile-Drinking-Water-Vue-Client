@@ -1,12 +1,10 @@
 
 import { defineStore } from 'pinia';
-
 export const useWebsiteInfoStore = defineStore('websiteInfo', {
   state: () => ({
     websiteInfos: [],
     isLoading: false,
   }),
-
   actions: {
     async fetchWebsiteInfo() {
       try {

@@ -30,3 +30,18 @@ h1,h2,h3,h4,h5,h6,p,span,a,li{
   .p-paginator.p-component {
     border: 1px solid #ddd;
 }
+
+
+
+
+nav.p-paginator-bottom {
+  margin-top: 20px;
+}
+
+.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled.p-paginator-rpp-options {
+  border: 1px solid #ddd;
+}
+
+button.p-paginator-page.p-paginator-element.p-link.p-highlight {
+  background: #F0FDFA;
+}

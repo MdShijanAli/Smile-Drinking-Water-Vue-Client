@@ -5,7 +5,7 @@
         class="flex flex-col items-center justify-center px-6 py-8 mx-auto my-20 lg:py-0"
       >
         <div
-          class="w-[500px] bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+          class="sm:w-[500px] w-full bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700"
         >
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1

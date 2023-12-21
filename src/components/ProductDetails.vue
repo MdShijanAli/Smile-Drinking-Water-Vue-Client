@@ -13,7 +13,7 @@
             <img class="mx-auto" :src="currentProduct?.img" alt="">
            </div>
            <div>
-               <h1 class="text-h1 font-semibold">{{ currentProduct?.title }}</h1>
+               <p class="lg:text-h1 text-h2 font-semibold">{{ currentProduct?.title }}</p>
                <p class="text-justify mt-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum, error! Placeat ut molestiae animi repellat optio fugit adipisci cumque odit atque vitae, ex non vero culpa, pariatur libero sequi dolorum? Voluptatum optio id nesciunt repudiandae maxime cupiditate, distinctio quas commodi ipsam libero accusantium labore omnis, natus voluptate corrupti temporibus nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores saepe accusantium nam voluptatem? Ex veniam similique voluptatum inventore commodi ratione. Temporibus, doloribus. Eveniet voluptatem fugiat, modi perspiciatis numquam ut quidem?</p>
            
               <div class="mt-10">
@@ -31,7 +31,7 @@
 
 <div>
   <div class="max-w-7xl mx-auto px-6 py-10">
-    <h1 class="text-h1 font-semibold text-center pb-10">Related products</h1>
+    <p class="lg:text-h1 text-h2 font-semibold text-center pb-10">Related products</p>
       <div class="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
   
                 <div v-for="product in productStore.products.slice(0,4)" :key="product.id" class="w-full h-full box">

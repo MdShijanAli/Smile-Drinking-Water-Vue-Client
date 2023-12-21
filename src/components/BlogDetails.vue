@@ -8,11 +8,11 @@
 
         <div class="mt-5">
           <div class="flex gap-5 items-start">
-            <p class="bg-gray-300 px-2 rounded-xl">Date: {{ currentBlog.date }}</p>
-            <p class="bg-gray-300 px-2 rounded-xl">Author: <span class="font-semibold">Md SHijan Ali</span></p>
+            <p class="bg-gray-300 text-sm px-2 rounded-xl">Date: {{ currentBlog.date }}</p>
+            <p class="bg-gray-300 text-sm px-2 rounded-xl">Author: <span class="font-semibold">Md SHijan Ali</span></p>
           </div>
           <div class="mt-10">
-            <h1 class="text-h1 font-semibold">{{ currentBlog.title }}</h1>
+            <p class="lg:text-h1 text-h2 font-semibold">{{ currentBlog.title }}</p>
           <p class="py-5">{{currentBlog.description}}</p>
           </div>
         </div>

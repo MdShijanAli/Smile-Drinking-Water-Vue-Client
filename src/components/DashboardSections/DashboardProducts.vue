@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <div class="card border">
+        <div class="p-3 sm:p-10 bg-white border">
             <Toolbar class="mb-4 border">
                 <template #start>
                     <Button label="New" icon="pi pi-plus" severity="success" class="mr-2 bg-green-500 px-4 py-2 text-white hover:bg-green-700 transition duration-500 ease-in-out" @click="openNew" />
@@ -18,11 +18,11 @@
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                 <template #header>
-                    <div class="flex flex-wrap items-center justify-between">
+                    <div class="flex flex-wrap gap-5 items-center justify-between">
                         <h4 class="m-0">Manage Products</h4>
 						<span class="p-input-icon-left flex gap-5">
                             <i class="pi pi-search mr-5" />
-                            <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
+                            <InputText v-model="filters['global'].value" class="pl-10 py-2 border w-full" placeholder="Search..." />
                         </span>
 					</div>
                 </template>
@@ -61,7 +61,7 @@
             </DataTable>
         </div>
 
-        <Dialog v-model:visible="productDialog" :style="{width: '450px'}" header="Product Details" :modal="true" class="p-fluid">
+        <Dialog v-model:visible="productDialog"  class="w-full sm:w-[450px] p-fluid m-6" header="Product Details" :modal="true">
             <Toast />
             
         <form action="">
@@ -108,7 +108,7 @@
         </form>   
         
         </Dialog>
-        <Dialog v-model:visible="productEditDialog" :style="{width: '500px'}" header="Product Details" :modal="true" class="p-fluid">
+        <Dialog v-model:visible="productEditDialog" class="w-full sm:w-[450px] p-fluid m-6" header="Product Details" :modal="true" >
             <Toast />
             <img v-if="product.img" :src="product.img" :alt="product.title" class="block m-auto pb-3" />
         <form action="">
@@ -138,7 +138,7 @@
         
         </Dialog>
 
-        <Dialog v-model:visible="deleteProductDialog" :style="{width: '500px'}" header="Confirm" :modal="true">
+        <Dialog v-model:visible="deleteProductDialog" class="w-full sm:w-[450px] p-fluid m-6" header="Confirm" :modal="true">
             <Toast />
             <div class="flex items-center gap-5">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -150,7 +150,7 @@
             </div>
         </Dialog>
 
-        <Dialog v-model:visible="deleteProductsDialog" :style="{width: '450px'}" header="Confirm" :modal="true">
+        <Dialog v-model:visible="deleteProductsDialog" class="w-full sm:w-[450px] p-fluid m-6" header="Confirm" :modal="true">
             <Toast />
             <div class="flex items-center gap-5">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />

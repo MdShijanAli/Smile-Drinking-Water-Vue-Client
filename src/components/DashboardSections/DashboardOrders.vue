@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-10 card">
+    <div class="p-3 sm:p-10 border bg-white">
       <h1 class="text-h1 font-semibold text-center py-10">All Orders</h1>
 
       <DataTable

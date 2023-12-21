@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="pr-10 sm:pr-0">
-        <div class="grid xl:grid-cols-2 gap-10">
-              <div class="border md:p-10 w-full">
+
+    <div class="">
+        <div class="grid xl:grid-cols-2 grid-cols-1 gap-10">
+              <div class="p-3 sm:p-10 border bg-white w-full col-span-1">
                 <form @submit.prevent="websiteDetasilsInfo">
-                    <div class="bg-white p-10">
+                    <div class="">
                       <div class="avatar p-5 w-full flex justify-center">
                         <div
                           class="w-32 rounded-full ring ring-primary ring-offset-2 block relative group"
@@ -217,7 +217,7 @@
                         </div>
 
                         <div class="pt-5">
-                          <div class="flex justify-start gap-5">
+                          <div class="flex flex-wrap justify-start gap-5">
                             <div>
                               <p class="text-primary font-semibold mb-2">Logo</p>
                               <div class="w-[200px] h-[120px] border relative grou">
@@ -294,7 +294,7 @@
                 </form>
               </div>
 
-              <div class="border p-10">
+              <div class="p-3 sm:p-10 border bg-white col-span-1">
                 <form @submit.prevent="updatePassword">
                   <h3>Update Password</h3>
                   <div class="">
@@ -326,7 +326,7 @@
         </div>
       <Toast />
     </div>
-  </div>
+
 </template>
 <script setup>
 import { onMounted, ref, watchEffect } from "vue";

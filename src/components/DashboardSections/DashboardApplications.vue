@@ -1,6 +1,6 @@
 
 <template>
-  <div class="p-10 card">
+  <div class="p-3 sm:p-10 border bg-white">
   
 
       <DataTable ref="dt" :value="applicaitons" v-model:selection="selectedjob" dataKey="id" 
@@ -8,11 +8,11 @@
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                 <template #header>
-                    <div class="flex flex-wrap items-center justify-between">
+                    <div class="flex flex-wrap gap-5 items-center justify-between">
                         <h4 class="m-0">All Applications</h4>
 						<span class="p-input-icon-left flex gap-5">
                             <i class="pi pi-search mr-5" />
-                            <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
+                            <InputText v-model="filters['global'].value" class="pl-10 py-2 w-full border" placeholder="Search..." />
                         </span>
 					</div>
                 </template>

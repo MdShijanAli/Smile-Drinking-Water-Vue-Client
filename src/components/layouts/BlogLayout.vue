@@ -18,7 +18,7 @@
                       <div class="col-span-3">
                           <p class="sm:text-sm text-xs text-[#777] font-medium">{{blog.date}}</p>
                           <RouterLink :to="{name: 'blog-details', params: {title: blog.title.replace(/ /g, '-') } }">
-                            <h1 class="lg:text-xl text-md font-semibold hover:text-secondary transition duration-500 ease-in-out">{{blog.title}}</h1>
+                            <p class="lg:text-xl text-md font-semibold hover:text-secondary transition duration-500 ease-in-out">{{blog.title}}</p>
                           </RouterLink>
                       </div>
                     </div>

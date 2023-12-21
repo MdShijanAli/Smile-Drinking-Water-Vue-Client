@@ -1,20 +1,20 @@
 <template>
   <div>
     <div>
-      <div class="p-10 card">
+      <div class="p-3 sm:p-10 border bg-white">
         <div class="mt-10 md:mt-0">
           <h1
             class="lg:text-h1 md:text-4xl sm:text-3xl text-2xl text-center font-semibold">
           All Jobs</h1>
         </div>
 
-        <div>
+        <div class="text-center sm:text-left">
           <Button label="New" icon="pi pi-plus" severity="success" class="mr-2 bg-green-500 px-4 py-2 text-white hover:bg-green-700 transition duration-500 ease-in-out" @click="openNew" />
                     
         </div>
 
         <div>
-          <Dialog v-model:visible="jobDialog" header="Product Details" :modal="true" class="p-fluid w-1/2">
+          <Dialog v-model:visible="jobDialog" header="Job Details" :modal="true" class="w-full sm:w-[450px] md:w-1/2 p-fluid m-6">
             <Toast />
             
         <form action="">
@@ -68,7 +68,7 @@
 
 
           
-                <div class="flex gap-5 mt-20 justify-end w-1/2 mx-auto">
+                <div class="flex gap-5 mt-20 justify-end md:w-1/2 mx-auto">
                 <Button label="Cancel" icon="pi pi-times" text class="bg-red-600 text-white px-5 py-2.5" @click="hideDialog"/>
                 <Button label="Post" icon="pi pi-check" text class="bg-green-600 text-white px-5 py-2.5" @click="uploadJobPost" />
                 </div>
@@ -87,11 +87,11 @@
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                 <template #header>
-                    <div class="flex flex-wrap items-center justify-between">
+                    <div class="flex flex-wrap gap-5 items-center justify-between">
                         <h4 class="m-0">Manage Products</h4>
 						<span class="p-input-icon-left flex gap-5">
                             <i class="pi pi-search mr-5" />
-                            <InputText v-model="filters['global'].value" class="pl-10 py-2 border" placeholder="Search..." />
+                            <InputText v-model="filters['global'].value" class="pl-10 py-2 w-full border" placeholder="Search..." />
                         </span>
 					</div>
                 </template>
@@ -134,7 +134,7 @@
 
 
 
-          <Dialog v-model:visible="jobViewDialog" modal header="Job Details" :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+          <Dialog v-model:visible="jobViewDialog" modal header="Job Details" class="w-full sm:w-[450px] md:w-1/2 p-fluid m-6" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
             
             <div class="text-right z-[999]">
               <Button icon="pi pi-pencil" outlined rounded class="mr-2 border border-[#1EBC87] hover:bg-[#1EBC87] hover:text-white transition duration-500 ease-in-out text-[#1EBC87]" @click="editProduct(selectedjob)" />
@@ -164,7 +164,7 @@
           </div>
         </Dialog>
 
-            <Dialog v-model:visible="productEditDialog" header="Job Details" :modal="true" class="p-fluid w-1/2">
+            <Dialog v-model:visible="productEditDialog" header="Job Details" :modal="true" class="w-full sm:w-[450px] md:w-1/2 p-fluid m-6">
             <Toast />
             
         <form action="">
@@ -218,7 +218,7 @@
 
 
           
-                <div class="flex gap-5 mt-20 justify-end w-1/2 mx-auto">
+                <div class="flex gap-5 mt-20 justify-end md:w-1/2 mx-auto">
                 <Button label="Cancel" icon="pi pi-times" text class="bg-red-600 text-white px-5 py-2.5" @click="productEditDialog = false"/>
                 <Button label="Update" icon="pi pi-check" text class="bg-green-600 text-white px-5 py-2.5" @click="updateJobPost(selectedjob)" />
                 </div>
@@ -228,7 +228,7 @@
         </Dialog>
 
 
-        <Dialog v-model:visible="deleteProductDialog" :style="{width: '500px'}" header="Confirm" :modal="true">
+        <Dialog v-model:visible="deleteProductDialog" class="w-full sm:w-[450px] p-fluid m-6" header="Confirm" :modal="true">
             <Toast />
             <div class="flex items-center gap-5">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
